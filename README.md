@@ -45,7 +45,7 @@ git commit -m "커밋 메시지"
 git push origin {브랜치 이름}
 ```
 
-# 📎 GitHub 사용법 및 규칙
+# GitHub 사용법 및 규칙
    > [깃허브 사용법 및 규칙](https://www.notion.so/makeus-challenge/Git-Hub-b54463cb25e2430bb5ec190d70490665?pvs=4)
 
 1. 자신의 브랜치에 프로젝트 업로드하기
@@ -57,7 +57,7 @@ git push origin {브랜치 이름}
 
 <br>
 
-# ✔ Commit Message Convention
+# Commit Message Convention
 | 커밋명   | 내용                                        |
 | -------- | ------------------------------------------- |
 | FEAT     | 파일, 폴더, 새로운 기능 추가                |
