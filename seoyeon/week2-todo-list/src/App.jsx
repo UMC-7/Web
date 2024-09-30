@@ -75,7 +75,6 @@ function App() {
                   setEditText(e.target.value)}}/>}
               {todo.id!==editingId && 
                 <p key={todo.id} style={{marginTop:'2px'}}>{todo.task}</p>}
-              
             </div>
             <div>
               <button onClick={()=>{deleteTodo(todo.id);}}>삭제하기</button>

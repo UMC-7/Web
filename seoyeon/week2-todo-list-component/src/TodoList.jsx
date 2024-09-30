@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import React from 'react'
 import Todo from './todo'
+import './App.css'
 
 const TodoList=(props)=>{
     const {todos,setTodos}=props
@@ -32,7 +33,7 @@ const TodoList=(props)=>{
     }
 
     return(
-        <div>
+        <div className='todo-list'>
             {todos.map((todo,_)=>
             <Todo id={todo.id} task={todo.task} isEditing={todo.id===editingId} 
             editText={editText} setEditText={fixEditText} deleteTodo={deleteTodo} updateTodo={updateTodo}

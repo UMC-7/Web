@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './App.css'
 
 const Form=(props)=>{
     const {handleSubmit,todos,setTodos}=props
@@ -21,7 +22,7 @@ const Form=(props)=>{
           type='text'
           value={text}
           onChange={(e)=>setText(e.target.value)}/>
-        <button type='submit' onClick={()=>{addTodo();}}>
+        <button className="add-button" type='submit' onClick={()=>{addTodo();}}>
             할 일 등록
         </button>
       </form>
