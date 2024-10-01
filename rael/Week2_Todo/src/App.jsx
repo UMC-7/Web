@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import './App.css'
+import Button from './components/Button';
+import Input from './components/Input';
 
 function App() {
   const [todos, setTodos] = useState([{id: 1, task: '투두 만들어보기'}]);
@@ -11,8 +13,9 @@ function App() {
 
   // 1. 추가하기
   const addTodo = () => {
+    
     if (text.trim().length === 0) {
-      alert('투두를 입력해주세요.')
+      alert('투두를 입력해주세요.');
     }
     else {
       setTodos((prev) => [...prev, {id: Math.floor(Math.random() * 100) + 2, task: text}]);
@@ -27,9 +30,14 @@ function App() {
 
   // 3. 수정하기 (핵심)
   const updateTodo = (id, text) => {
-    setTodos((prev) => 
-      prev.map((item) => item.id === id ? {...item, task: text} : item)
-    ); // item id와 온클릭 id가 일치하면 text 수정 : 아니면 item 그대로
+    if (editText.trim().length === 0) {
+      alert('수정할 내용을 입력해주세요.')
+    }
+    else {
+      setTodos((prev) => 
+        prev.map((item) => item.id === id ? {...item, task: text} : item)
+      ); // item id와 온클릭 id가 일치하면 text 수정 : 아니면 item 그대로
+    }
     setIsEditingId(''); // editingID 상태 초기화 -> input창 아니고 p로 돌아감
   };
 
@@ -46,8 +54,8 @@ function App() {
       </h2>
 
       <form className='input_container' onSubmit={handleSubmit}>
-        <input className='input' type='text' value={text} onChange={(e) => setText(e.target.value)}/>
-        <button className='button' onClick={() => addTodo()} type='submit'>할 일 등록</button>
+        <Input classname='input' type='text' value={text} onchange={(e) => setText(e.target.value)}/>
+        <Button classname="button" onclick={addTodo} text="할 일 등록"/>
       </form>
 
       <div className='container'>
@@ -66,22 +74,22 @@ function App() {
             {editingId === todo.id && (
               <div className='listitem' key={todo.id} style={{display: 'flex', gap: '10px'}}>
                 <p className='list'>{todo.id}.</p>
-                <input 
-                className='input'
-                defaultValue={todo.task} 
-                onChange={(e) => setEditText(e.target.value)}
+                <Input 
+                classname='input'
+                dvalue={todo.task} 
+                onchange={(e) => setEditText(e.target.value)}
                 />
               </div> 
             )}
-            <button className='deletebutton' onClick={() => deleteTodo(todo.id)}>삭제하기</button>
+            <Button classname="deletebutton" onclick={() => {deleteTodo(todo.id)}} text="삭제하기" />
 
 
             {/* editingId !== todo.id 수정이 아닌 상태 */}
             {/* editingId === todo.id 수정 중인 상태 */}
             {editingId === todo.id ? (
-              <button className='editbutton' onClick={() => updateTodo(editingId, editText)}>수정완료</button>
+              <Button classname="editbutton" onclick={() => {updateTodo(editingId, editText)}} text="수정완료" />
             ) : (
-              <button className='editbutton' onClick={() => setIsEditingId(todo.id)}>수정진행</button>
+              <Button classname="editbutton" onclick={() => {setIsEditingId(todo.id)}} text="수정진행" />
             )}
 
             
