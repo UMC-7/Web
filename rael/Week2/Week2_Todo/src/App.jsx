@@ -25,20 +25,20 @@ function App() {
 
   // 2. 삭제하기
   const deleteTodo = (id) => {
-    setTodos((prev) => prev.filter((item) => item.id !== id));
+      setTodos((prev) => prev.filter((item) => item.id !== id));
   }; // item(현재 투두들)의 id와 온클릭으로 받은 id값의 일치 확인 후 filter 활용
 
   // 3. 수정하기 (핵심)
   const updateTodo = (id, text) => {
-    if (editText.trim().length === 0) {
+      if (editText.trim().length === 0) {
       alert('수정할 내용을 입력해주세요.')
-    }
-    else {
+      }
+      else {
       setTodos((prev) => 
-        prev.map((item) => item.id === id ? {...item, task: text} : item)
+          prev.map((item) => item.id === id ? {...item, task: text} : item)
       ); // item id와 온클릭 id가 일치하면 text 수정 : 아니면 item 그대로
-    }
-    setIsEditingId(''); // editingID 상태 초기화 -> input창 아니고 p로 돌아감
+      }
+      setIsEditingId(''); // editingID 상태 초기화 -> input창 아니고 p로 돌아감
   };
 
   // 렌더링 방지 함수
@@ -49,9 +49,7 @@ function App() {
   return (
     <>
 
-      <h2 className='title'>
-        Rael's TodoList!
-      </h2>
+      <h2 className='title'> Rael's TodoList!</h2>
 
       <form className='input_container' onSubmit={handleSubmit}>
         <Input classname='input' type='text' value={text} onchange={(e) => setText(e.target.value)}/>
@@ -96,6 +94,7 @@ function App() {
           </div>
         ))}
       </div>
+
     </>
   )
 }
