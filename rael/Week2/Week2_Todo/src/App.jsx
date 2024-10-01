@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './App.css'
 import Button from './components/Button';
 import Input from './components/Input';
 
 function App() {
   const [todos, setTodos] = useState([{id: 1, task: '투두 만들어보기'}]);
+  const nextID = useRef(1);
 
   const [text, setText] = useState('');
 
@@ -18,8 +19,9 @@ function App() {
       alert('투두를 입력해주세요.');
     }
     else {
-      setTodos((prev) => [...prev, {id: Math.floor(Math.random() * 100) + 2, task: text}]);
+      setTodos((prev) => [...prev, {id: nextID.current, task: text}]);
       setText('');
+      nextID.current += 1;
     }
   };
 
