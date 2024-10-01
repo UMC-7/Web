@@ -7,27 +7,30 @@ function App() {
   const [text, setText] = useState('');
 
   const [editingId, setIsEditingId] = useState(''); // 수정하기를 누른 상태인지
-  const [editText, setEditText] = useState('');
+  const [editText, setEditText] = useState(''); // 수정할 텍스트
 
   // 1. 추가하기
   const addTodo = () => {
-    //if (text.trim().length === 0) {
-    //  alert('투두를 입력해주세요.')
-    //}
-    setTodos((prev) => [...prev, {id: Math.floor(Math.random() * 100) + 2, task: text}]);
-    setText('');
+    if (text.trim().length === 0) {
+      alert('투두를 입력해주세요.')
+    }
+    else {
+      setTodos((prev) => [...prev, {id: Math.floor(Math.random() * 100) + 2, task: text}]);
+      setText('');
+    }
   };
 
   // 2. 삭제하기
   const deleteTodo = (id) => {
     setTodos((prev) => prev.filter((item) => item.id !== id));
-  };
+  }; // item(현재 투두들)의 id와 온클릭으로 받은 id값의 일치 확인 후 filter 활용
+
   // 3. 수정하기 (핵심)
   const updateTodo = (id, text) => {
     setTodos((prev) => 
       prev.map((item) => item.id === id ? {...item, task: text} : item)
-    );
-    setIsEditingId('');
+    ); // item id와 온클릭 id가 일치하면 text 수정 : 아니면 item 그대로
+    setIsEditingId(''); // editingID 상태 초기화 -> input창 아니고 p로 돌아감
   };
 
   // 렌더링 방지 함수
@@ -37,13 +40,20 @@ function App() {
 
   return (
     <>
+
+      <h2 className='title'>
+        Rael's TodoList!
+      </h2>
+
       <form className='input_container' onSubmit={handleSubmit}>
         <input className='input' type='text' value={text} onChange={(e) => setText(e.target.value)}/>
         <button className='button' onClick={() => addTodo()} type='submit'>할 일 등록</button>
       </form>
+
       <div className='container'>
         {todos.map((todo, _) => (
           <div className='todolist' style={{display: 'flex', gap: '20px'}}>
+
             {/* 수정이 아닐때 */}
             {editingId !== todo.id && (
               <div className='listitem' key={todo.id} style={{display: 'flex', gap: '10px'}}>
@@ -65,6 +75,7 @@ function App() {
             )}
             <button className='deletebutton' onClick={() => deleteTodo(todo.id)}>삭제하기</button>
 
+
             {/* editingId !== todo.id 수정이 아닌 상태 */}
             {/* editingId === todo.id 수정 중인 상태 */}
             {editingId === todo.id ? (
@@ -72,6 +83,8 @@ function App() {
             ) : (
               <button className='editbutton' onClick={() => setIsEditingId(todo.id)}>수정진행</button>
             )}
+
+            
           </div>
         ))}
       </div>

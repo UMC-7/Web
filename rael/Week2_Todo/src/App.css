@@ -1,3 +1,9 @@
+.title {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
 .button {
     width: 20%;
     background-color: #ebd451;
