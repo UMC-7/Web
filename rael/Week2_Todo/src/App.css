@@ -9,6 +9,7 @@
 
 .deletebutton {
     width: 20%;
+    height: 30px;
     background-color: #ac5959;
     border-radius: 4px;
     border: 1px solid #582d2d;
@@ -19,6 +20,7 @@
 
 .editbutton {
     width: 20%;
+    height: 30px;
     background-color: #61548f;
     border-radius: 4px;
     border: 1px solid #29233d;
