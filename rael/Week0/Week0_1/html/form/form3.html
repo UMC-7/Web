@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>form</title>
+    </head>
+
+    <body>
+        <form action="/test.html">
+            <h1>Form 관련 요소</h1>
+            아이디: <input type="text" placeholder="영문으로만 써주세요"><br>
+            비밀번호: <input type="password"><br>
+
+            성별: 남자 <input type="radio" name="gender" checked>, 
+            여자 <input type="radio" name="gender"><br>
+            
+            취미: 영화감상 <input type="checkbox" name="hobby" checked>, 
+            음악감상 <input type="checkbox" name="hobby">, 
+            독서 <input type="checkbox" name="hobby"><br>
+            
+            프로필 사진 업로드: <input type="file"><br>
+
+            사는 지역: <select>
+                <option>서울</option>
+                <option>경기</option>
+                <option>강원</option>
+                <option selected>제주</option>
+            </select><br>
+            <!--select 선택 목록 상자 : 리스트 형태로 선택지 노출-->
+            <!--selected : checked와 마찬가지로 boolean-->
+
+            자기소개: <textarea cols="30" rows="5" placeholder="자기소개는 짧게 해주세요."></textarea><br>
+            <!--textarea : 여러줄의 텍스트를 입력할 때 사용-->
+
+            <button type="submit">전송</button><br>
+            <button type="reset">취소</button><br>
+
+            <input type="submit" value="전송"><br>
+            <input type="reset" value="취소"><br>
+
+            <!--button : 버튼을 만들 때 사용하며 submit, reset, button 3가지의 타입이 있다.-->
+            <!--input 타입의 submit, reset, button과 모두 같은 기능을 가진 버튼-->
+            <!--다만, 빈 태그가 아니며 내용을 안에 직접 넣을 수 있으므로 좀 더 자유로운 스타일 표현이 가능-->
+        </form>
+    </body>
+</html>

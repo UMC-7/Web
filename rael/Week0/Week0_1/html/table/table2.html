@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>table</title>
+        <style>
+            th, td { border: 1px solid; width: 50px; height: 20px;}
+        </style>
+    </head>
+
+    <body>
+        <table>
+            <caption>Monthly Savings</caption> <!--표의 제목을 나타내는 태그-->
+            <thead> <!--제목 행을 그룹화하는 태그-->
+                <tr>
+                    <th>Month</th><th>Savings</th> <!--제목셀 <th></th>-->
+                </tr>
+            </thead>
+            <tfoot> <!--바닥 행을 그룹화하는 태그, 어디에 작성하든 맨 아래 행에 나타남-->
+                <tr>
+                    <td>Sum</td><td>$180</td>
+                </tr>
+            </tfoot>
+            <tbody> <!--본문 행을 그룹화하는 태그-->
+                <tr>
+                    <td>January</td><td>$100</td>
+                </tr>
+                <tr>
+                    <td>February</td><td>$80</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </body>
+
+</html>

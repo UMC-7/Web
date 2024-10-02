@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>table</title>
+        <style>
+            th, td { border: 1px solid; width: 50px; height: 20px;}
+        </style>
+    </head>
+
+    <body>
+        <table>
+            <caption>Monthly Savings</caption> 
+            <thead> 
+                <tr>
+                    <th>Month</th><th>Savings</th> 
+                </tr>
+            </thead>
+            <tfoot> 
+                <tr>
+                    <td colspan="2">Sum</td> <!--colspan 셀을 가로방향으로 병합-->
+                </tr>
+            </tfoot>
+            <tbody> 
+                <tr>
+                    <td>January</td><td>$100</td>
+                </tr>
+                <tr>
+                    <td>February</td><td rowspan="2">$80</td> <!--rowspan 셀을 세로방향으로 병합-->
+                </tr>
+                <tr>
+                    <td>March</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </body>
+
+</html>

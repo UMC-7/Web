@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>css</title>
+        <style media="screen">
+            /* p[class~="color"] {font-style: italic;} /* class속성값이 공백으로 구분한 color 단어가 포함되는 */
+            /* p[class^="color"] {font-style: italic;} /* class속성값이 color로 시작하는 */
+            /* p[class$="color"] {font-style: italic;} /* class속성값이 color로 끝나는 */
+            p[class*="color"] {font-style: italic;} /* class속성값이 color 문자가 포함되는 */
+        </style>
+    </head>
+
+    <body>
+        <p class="color hot">red</p>
+        <p class="cool color">blue</p>
+        <p class="colorful nature">rainbow</p>
+    </body>
+
+</html>

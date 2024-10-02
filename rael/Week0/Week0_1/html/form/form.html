@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>form</title>
+    </head>
+
+    <body>
+        <h1>Form 관련 요소</h1>
+        아이디: <input type="text" placeholder="영문으로만 써주세요"><br>
+        <!--placeholder 텍스트를 입력하기 전, 빈칸에 안내문처럼 띄워주는 텍스트-->
+        비밀번호: <input type="password"><br>
+
+        성별: 남자 <input type="radio" name="gender" checked>, 
+        여자 <input type="radio" name="gender"><br>
+        <!--radio 타입 : 다중선택 중 1택만 가능-->
+        <!--name 속성을 통해 같은 radio를 그룹화시킴-->
+        <!--checked : boolean 속성, 따로 설정하지 않으면 기본적으로 true(라디오가 선택된 상태)-->
+
+        취미: 영화감상 <input type="checkbox" name="hobby">, 
+        음악감상 <input type="checkbox" name="hobby">, 
+        독서 <input type="checkbox" name="hobby">
+        <!--checkbox 타입 : 다중선택 중 0개이상 선택 가능-->
+        <!--name 속성을 통해 같은 checkbox를 그룹화시킴-->
+    </body>
+
+</html>
