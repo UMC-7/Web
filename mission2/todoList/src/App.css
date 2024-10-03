@@ -1,0 +1,14 @@
+.todo-button{
+  background-color: lightblue;
+  color:beige;
+  border:none;
+  padding: 10px 20px;
+  text-align: center;
+}
+.todo-input {
+  padding: 8px;
+  width: 200px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
