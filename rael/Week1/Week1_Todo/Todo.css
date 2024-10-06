@@ -31,13 +31,12 @@ input::placeholder {
     display: inline-block;
     vertical-align: top; /* inline-block top으로 고정 */
     width: 45%;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 li {
     margin: auto;
     list-style: none;
-    font-weight: 700;
     font-size: 20px;
     text-align: left;
     width: 35%;
