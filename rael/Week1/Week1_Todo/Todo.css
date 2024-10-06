@@ -1,0 +1,31 @@
+*{
+    text-align: center;
+    background-color: rgb(243, 248, 248);
+}
+
+h1 {
+    margin: 80px;
+    font-size: 50px;
+}
+
+input {
+    text-align: left;
+    width: 50%;
+    height: 40px;
+    margin: 10px;
+    padding-left: 15px;
+    background-color: white;
+}
+
+input::placeholder {
+    font-style: italic;
+}
+
+.todo {
+    display: inline-block;
+    width: 45%;
+    font-style: bold;
+    text-decoration: underline 2.5px rgb(189, 189, 189);
+    border: 1px solid black; /*끝나고 지우기*/
+    margin-bottom: 70px;
+}
