@@ -26,6 +26,5 @@ input::placeholder {
     width: 45%;
     font-style: bold;
     text-decoration: underline 2.5px rgb(189, 189, 189);
-    border: 1px solid black; /*끝나고 지우기*/
     margin-bottom: 70px;
 }
