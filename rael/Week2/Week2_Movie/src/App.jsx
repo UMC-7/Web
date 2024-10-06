@@ -1,10 +1,11 @@
 import './App.css'
+import { View } from './components/View'
 
 function App() {
 
   return (
     <>
-     <h1>Hello React</h1>
+     <View />
     </>
   )
 }
