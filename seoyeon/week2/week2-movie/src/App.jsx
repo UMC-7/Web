@@ -1,6 +1,6 @@
 import './App.css'
 import {MOVIES} from './mocks/movies.js'
-import MoviePoster from './MoviePoster.jsx'
+import MoviePoster from './components/MoviePoster.jsx'
 
 function App() {
   
@@ -12,7 +12,7 @@ function App() {
     <div>
       <div style={{display:'flex', justifyContent:'center', flexWrap:'wrap'}}>
         {MOVIES.results.map((movie)=>
-          <MoviePoster id={movie.id} poster_path={movie.poster_path}/>
+            <MoviePoster id={movie.id} poster_path={movie.poster_path} title={movie.title}/>
         )}
       </div>
     </div>
