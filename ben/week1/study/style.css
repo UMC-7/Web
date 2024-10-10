@@ -1,0 +1,46 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* block 요소 스타일 */
+.block-element {
+    display: block;
+    width: 100px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: lightcoral;
+    color: white;
+    text-align: center;
+}
+
+/* inline 요소 스타일 */
+.inline-element {
+    display: inline;
+    padding: 10px;
+    margin: 10px;
+    background-color: lightblue;
+    color: white;
+    text-align: center;
+    border: 1px solid #000; /* 경계선 추가 */
+}
+
+/* inline-block 요소 스타일 */
+.inline-block-element {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    padding: 10px;
+    margin: 10px;
+    background-color: lightgreen;
+    color: white;
+    text-align: center;
+}
