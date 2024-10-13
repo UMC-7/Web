@@ -1,41 +1,22 @@
 import React from 'react';
-import './App.css';
+import styled from 'styled-components';
 import { MOVIES } from './mocks/movies';
+import MovieItem from './components/MovieItem';
 
-const base_url = "https://image.tmdb.org/t/p";
-const file_size = "/w500";
+const MovieContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+`;
 
 function App() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, padding: 20 }}>
-      {MOVIES.results.map((movie) => {
-        const file_path = movie.poster_path;
-
-        return (
-          <div
-            className="movie-item"
-            style={{
-              width: 180,
-              position: 'relative',
-              overflow: 'hidden',
-              borderRadius: 8,
-            }}
-            key={movie.id}
-          >
-            <img
-              src={`${base_url}${file_size}${file_path}`}
-              style={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: 8,
-              }}
-            />
-            {/* 오버레이 요소 */}
-            <div className="movie-overlay"></div>
-          </div>
-        );
-      })}
-    </div>
+    <MovieContainer>
+      {MOVIES.results.map((movie) => (
+        <MovieItem key={movie.id} posterPath={movie.poster_path} />
+      ))}
+    </MovieContainer>
   );
 }
 
