@@ -11,10 +11,10 @@ export const MoviePoster = () => {
 
     useEffect(() => {
         const getMovies = async () => {
-            const movies = await axios.get('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', {
+            const movies = await axios.get('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', {
                 headers: {
                     accept: 'application/json', 
-                    Authorization: VITE_API_KEY, 
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzVjYzk2N2IzOGE4MTFkMTcyZmRhMmU5MTNkNmM4MiIsIm5iZiI6MTcyODIzNTI3OC44NDk0MzIsInN1YiI6IjY3MDJjMGE4ZjM0OTVkNzJjNGY3YzQ0MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pJ9RnFnAIfzMT6Bq9oCZm-21vjWlPmLX33B_rRg0Ukg', 
                 }
             })
             setMovies(movies);
@@ -28,6 +28,8 @@ export const MoviePoster = () => {
                 <Movies key={movie.id}>
                     <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
                     <Overlay></Overlay>
+                    <Title>{movie.title}</Title>
+                    <ReleaseDate>{movie.release_date}</ReleaseDate>
                 </Movies>
             ))}
         </Container>
@@ -37,7 +39,9 @@ export const MoviePoster = () => {
 const Movies = styled.div`
     position: relative;
     width: 150px;
+    height: 220px;
     margin: 10px;
+    padding-bottom: 55px;
 `
 
 const Overlay = styled.div`
@@ -67,4 +71,19 @@ const Img = styled.img`
     width: 100%;
     height: 100%;
     border-radius: 10px;
+    object-fit: cover;
 `
+
+const Title = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    color: white;
+    margin-top: 5px;
+`;
+
+const ReleaseDate = styled.div`
+    display: flex;
+    color: white;
+    font-size: 11px;
+`;

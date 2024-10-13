@@ -10,8 +10,7 @@ const TitleStyle = (props) => {
 
 export default TitleStyle;
 
-const Title = styled.text`
-    font-size: 25px;
+const Title = styled.h1`
     font-weight: 600;
     color: white;
     margin: 10px;

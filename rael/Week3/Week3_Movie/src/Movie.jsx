@@ -7,6 +7,10 @@ import LoginPage from './pages/login.jsx'
 import SignupPage from './pages/signup.jsx'
 import SearchPage from './pages/search.jsx'
 import MoviePage from './pages/movie.jsx'
+import NowPlaying from './pages/categories/nowplaying.jsx'
+import Popular from './pages/categories/popular.jsx'
+import TopRated from './pages/categories/toprated.jsx'
+import UpComing from './pages/categories/upcoming.jsx'
 
 const router = createBrowserRouter([
   {
@@ -17,7 +21,11 @@ const router = createBrowserRouter([
       {path: 'login', element: <LoginPage/>}, 
       {path: 'signup', element: <SignupPage/>},
       {path: 'search', element: <SearchPage/>},
-      {path: 'movie', element: <MoviePage/>}
+      {path: 'movie', element: <MoviePage/>},
+      {path: "/movie/now-playing", element: <NowPlaying />},
+      {path: "/movie/popular", element: <Popular />},
+      {path: "/movie/top-rated", element: <TopRated />},
+      {path: "/movie/up-coming", element: <UpComing />}
     ]
   }
 ])
