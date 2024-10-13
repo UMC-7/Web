@@ -1,15 +1,11 @@
 import './App.css'
-import { useEffect } from 'react'
-
-useEffect(() =>{
-
-}, []);
+import { MoviePoster } from './components/MoviesPage';
 
 function App() {
 
   return (
     <>
-      
+      <MoviePoster />
     </>
   )
 }

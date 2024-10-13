@@ -1,7 +1,7 @@
-const Login = () => {
+const LoginPage = () => {
     return (
-        <h1>Login Page 야호~!</h1>
+        <h1>로그인 페이지</h1>
     );
 };
 
-export default Login;
+export default LoginPage;
