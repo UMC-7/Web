@@ -13,6 +13,7 @@ export const MoviePoster = () => {
         const getMovies = async () => {
             const movies = await axios.get('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', {
                 headers: {
+                    accept: 'application/json', 
                     Authorization: VITE_API_KEY, 
                 }
             })
@@ -60,7 +61,6 @@ const Overlay = styled.div`
 const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 `
 
 const Img = styled.img`

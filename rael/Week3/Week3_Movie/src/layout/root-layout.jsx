@@ -5,22 +5,29 @@ import styled from "styled-components";
 
 const RootLayout = () => {
     return (
-        <>
+        <Container>
             <Navbar/>
-            <ContentSection>
-                <Sidebar/>
+            <Sidebar/>
+            <Content>
                 <Outlet/>
-            </ContentSection>
-        </>
+            </Content>
+        </Container>
     );
 };
 
 export default RootLayout;
 
-const ContentSection = styled.div`
-    width: 100%
-    height: 100%;
+const Container = styled.div`
     display: flex;
-    flex-direction: row;
-    flex: 0 1 auto;
+    height: 100%;
+`
+
+const Content = styled.div`
+    width: 100%;
+    height: 100%;
+    margin-top: 50px;
+    margin-left: 150px;
+    padding: 30px;
+    display: flex;
+    background-color: #202020;
 `

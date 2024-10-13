@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <MovieNav>
             <Logo>
-                <LogoLink to={'/'}>YOUNGCHA</LogoLink>
+                <LogoLink to={'/'}>HOICHA</LogoLink>
             </Logo>
             <Nav>
                 <LoginButton to='/login'>로그인</LoginButton>

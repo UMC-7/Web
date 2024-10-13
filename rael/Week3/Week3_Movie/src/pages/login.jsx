@@ -1,6 +1,8 @@
+import TitleStyle from "../components/TitleStyle";
+
 const LoginPage = () => {
     return (
-        <h1>로그인 페이지</h1>
+        <TitleStyle title="로그인 페이지"/>
     );
 };
 
