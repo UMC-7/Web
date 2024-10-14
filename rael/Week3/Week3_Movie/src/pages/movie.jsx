@@ -4,15 +4,27 @@ import { Link, NavLink } from "react-router-dom";
 
 const MoviePage = () => {
     return (
-        <>
-            <div><TitleStyle title="카테고리"/></div>
-            <Container style={{display: "flex", flexDirection: "column"}}>
-                <CategoriyLink to="now-playing">현재 상영중인</CategoriyLink>
-                <CategoriyLink to="popular">인기있는</CategoriyLink>
-                <CategoriyLink to="top-rated">높은 평가를 받은</CategoriyLink>
-                <CategoriyLink to="up-coming">개봉 예정중인</CategoriyLink>
+        <div>
+            <TitleStyle title="카테고리"/>
+            <Container>
+                <CategoryLink to="now-playing">
+                    <StyledImg src="/현재 상영중인.jpg" alt="현재 상영중인"/>
+                    <Category>현재 상영중인</Category>
+                </CategoryLink>
+                <CategoryLink to="popular">
+                    <StyledImg src="/인기있는.jpg" alt="인기있는"/>
+                    <Category>인기있는</Category>
+                </CategoryLink>
+                <CategoryLink to="top-rated">
+                    <StyledImg src="/높은 평가를 받은.jpg" alt="높은 평가를 받은"/>
+                    <Category>높은 평가를 받은</Category>
+                </CategoryLink>
+                <CategoryLink to="up-coming">
+                    <StyledImg src="/개봉 예정중인.jpg" alt="개봉 예정중인"/>
+                    <Category>개봉 예정중인</Category>
+                </CategoryLink>
             </Container>
-        </>
+        </div>
     );
 };
 
@@ -20,16 +32,40 @@ export default MoviePage;
 
 const Container = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;   
+    margin-left: 20px;
 `
 
-const CategoriyLink = styled(Link)`
+const CategoryLink = styled(NavLink)`
     box-sizing: border-box;
+    width: 250px;
+    height: 250px;
     color: black;
     background: #ffffff;
-    opacity: 0.7;
     border-radius: 5px;
     padding: 5px;
     margin: 10px;
     text-decoration: none;
+    position: relative;
 `
+
+const Category = styled.div`
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    padding: 5px;
+`
+
+const StyledImg = styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+`;
