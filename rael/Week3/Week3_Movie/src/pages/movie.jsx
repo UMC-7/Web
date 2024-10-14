@@ -6,7 +6,7 @@ const MoviePage = () => {
     return (
         <>
             <div><TitleStyle title="카테고리"/></div>
-            <Container>
+            <Container style={{display: "flex", flexDirection: "column"}}>
                 <CategoriyLink to="now-playing">현재 상영중인</CategoriyLink>
                 <CategoriyLink to="popular">인기있는</CategoriyLink>
                 <CategoriyLink to="top-rated">높은 평가를 받은</CategoriyLink>
@@ -21,7 +21,6 @@ export default MoviePage;
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 `
 
 const CategoriyLink = styled(Link)`

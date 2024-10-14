@@ -1,8 +1,8 @@
-import TitleStyle from "../../components/TitleStyle";
+import { MoviePoster } from "../../components/MoviePoster";
 
 const NowPlaying = () => {
     return (
-        <TitleStyle title="로그인 페이지"/>
+        <MoviePoster apiUrl="https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1"/>
     );
 };
 

@@ -1,8 +1,8 @@
-import TitleStyle from "../../components/TitleStyle";
+import { MoviePoster } from "../../components/MoviePoster";
 
 const TopRated = () => {
     return (
-        <TitleStyle title="로그인 페이지"/>
+        <MoviePoster apiUrl="https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=1"/>
     );
 };
 

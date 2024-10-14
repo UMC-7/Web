@@ -5,22 +5,26 @@ import styled from "styled-components";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 const VITE_API_KEY = import.meta.env.VITE_API_KEY;
 
-export const MoviePoster = () => {
+export const MoviePoster = ({apiUrl}) => {
 
     const [movies, setMovies] = useState([])
 
     useEffect(() => {
         const getMovies = async () => {
-            const movies = await axios.get('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', {
-                headers: {
-                    accept: 'application/json', 
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzVjYzk2N2IzOGE4MTFkMTcyZmRhMmU5MTNkNmM4MiIsIm5iZiI6MTcyODIzNTI3OC44NDk0MzIsInN1YiI6IjY3MDJjMGE4ZjM0OTVkNzJjNGY3YzQ0MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pJ9RnFnAIfzMT6Bq9oCZm-21vjWlPmLX33B_rRg0Ukg', 
-                }
-            })
-            setMovies(movies);
+            try {
+                const movies = await axios.get(apiUrl, {
+                    headers: {
+                        accept: 'application/json', 
+                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YzVjYzk2N2IzOGE4MTFkMTcyZmRhMmU5MTNkNmM4MiIsIm5iZiI6MTcyODIzNTI3OC44NDk0MzIsInN1YiI6IjY3MDJjMGE4ZjM0OTVkNzJjNGY3YzQ0MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pJ9RnFnAIfzMT6Bq9oCZm-21vjWlPmLX33B_rRg0Ukg', 
+                    }
+                })
+                setMovies(movies);
+            } catch (error) {
+                console.error("영화 정보를 가져오는 중 오류 발생:", error);
+            }
         }
-        getMovies()
-    }, []);
+        getMovies();
+    }, [apiUrl]);
 
     return (
         <Container>
@@ -47,7 +51,7 @@ const Movies = styled.div`
 const Overlay = styled.div`
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 80%;
     top: 0;
     left: 0;
     display: flex;
