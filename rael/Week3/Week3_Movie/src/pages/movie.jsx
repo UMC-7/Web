@@ -39,13 +39,11 @@ const Container = styled.div`
 `
 
 const CategoryLink = styled(NavLink)`
-    box-sizing: border-box;
     width: 250px;
     height: 250px;
     color: black;
     background: #ffffff;
     border-radius: 5px;
-    padding: 5px;
     margin: 10px;
     text-decoration: none;
     position: relative;
