@@ -1,9 +1,9 @@
-import {StyledOutletLayout,StyledOutletFont} from "../components/OutletStyle";
+import {StyledOutletFont} from "../components/OutletStyle";
 
 const SearchPage=()=>{
     return(
-        <StyledOutletLayout>
+        <div>
             <StyledOutletFont>검색</StyledOutletFont>
-        </StyledOutletLayout>    )
+        </div>    )
 }
 export default SearchPage

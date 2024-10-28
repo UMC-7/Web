@@ -1,10 +1,10 @@
-import {StyledOutletLayout,StyledOutletFont} from "../components/OutletStyle";
+import {StyledOutletFont} from "../components/OutletStyle";
 
 const LoginPage=()=>{
     return(
-        <StyledOutletLayout>
+    <div>
         <StyledOutletFont>로그인</StyledOutletFont>
-    </StyledOutletLayout>
+    </div>
     )
 }
 export default LoginPage;

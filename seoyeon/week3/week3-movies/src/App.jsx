@@ -1,11 +1,12 @@
 import './App.css'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import RootLayout from './layout/root-layout'
-import LoginPage from './pages/login'
+import LoginPage from './pages/Login'
 import HomePage from './pages/Home'
-import SignupPage from './pages/signup'
-import SearchPage from './pages/search'
+import SignupPage from './pages/Signup'
+import SearchPage from './pages/Search'
 import MoviesPage from './pages/movie'
+import NowPlayingPage from './pages/NowPlaying'
 
 const router=createBrowserRouter([
   {
@@ -30,7 +31,11 @@ const router=createBrowserRouter([
       },
       {
         path:'/movies',
-        element:<MoviesPage/>
+        element:<MoviesPage/>,
+      },
+      {
+        path:'/movies/now-playing',
+        element:<NowPlayingPage/>
       }
     ]
   }

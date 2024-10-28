@@ -1,9 +1,9 @@
-import {StyledOutletLayout,StyledOutletFont} from "../components/OutletStyle";
+import {StyledOutletFont} from "../components/OutletStyle";
 
 const SignupPage=()=>{
     return(
-        <StyledOutletLayout>
+        <div>
             <StyledOutletFont>회원가입</StyledOutletFont>
-        </StyledOutletLayout>    )
+        </div>    )
 }
 export default SignupPage

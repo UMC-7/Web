@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom"
 import styled from "styled-components"
+
 const Navbar=()=>{
     return(
         <StyledNavBar>
@@ -16,12 +17,17 @@ const Navbar=()=>{
             </div>
         </StyledNavBar>
     )
-}
-export default Navbar
+};
+export default Navbar;
 
 const StyledNavBar=styled.nav`
+position:fixed;
+    top:0;
+    left:0;
+    right: 0;
     height: 45px;
     padding:10px;
+    box-sizing: border-box;
     padding-left: 20px;
     background-color: #1b1b1b;
     display:flex;

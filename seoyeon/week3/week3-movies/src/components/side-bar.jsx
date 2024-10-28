@@ -26,13 +26,17 @@ const SideBarItem=({icon:Icon, label})=>{
     )
 }
 
-const StyledSide=styled.div`
+const StyledSide=styled.aside`
+    position: fixed;
     display:flex;
     flex-direction: column;
-    width:230px;
-    height: 100%;
-    margin:0;
+    width: 230px;
+    margin-top: 45px;
+    left:0;
+    top: 0;
+    bottom: 0;
     padding:10px;
+    box-sizing: border-box;
     background-color: #1b1b1b;
 `
 const StyledSideBarItem=styled.div`

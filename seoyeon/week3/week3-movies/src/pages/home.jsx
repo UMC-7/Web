@@ -1,11 +1,18 @@
-import {StyledOutletLayout,StyledOutletFont} from "../components/OutletStyle";
+import styled from "styled-components";
+import {StyledOutletFont} from "../components/OutletStyle";
 
 const HomePage=()=>{
     return(
-        <StyledOutletLayout>
+        <Container>
             <StyledOutletFont>홈</StyledOutletFont>
-        </StyledOutletLayout>
+        </Container>
 
     )
 }
 export default HomePage
+
+const Container=styled.div`
+    display: flex;
+    top:0;
+    bottom: 0;
+`

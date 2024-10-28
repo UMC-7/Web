@@ -5,21 +5,19 @@ const IMG_BASE_URL="https://image.tmdb.org/t/p/w500"
 
 const MoviePoster=(props)=>{
     return(
-        <StyledMovieCard>
-            <StyledMoviePoster alt={props.title} poster_path={props.poster_path}/>
-            <StyledOverlay/>
-        </StyledMovieCard>
+        <StyledMoviePoster alt={props.title} poster_path={props.poster_path}/>
     )
 }
 export default MoviePoster
 
-const StyledMoviePoster=styled.img`
-    width:160px;
+const StyledMoviePoster=styled.img.attrs(props=>
+({src:`${IMG_BASE_URL}${props.poster_path}`})
+)`
+    width:100%;
     height:100%;
     border-radius:5px;
-    display:inline;
-    alt:${props=>props.title};
-    src:${IMG_BASE_URL}${props=>props.poster_path};
+    display:block;
+    position: relative;
 `
 const StyledOverlay=styled.div`
     position:absolute;
@@ -32,7 +30,4 @@ const StyledOverlay=styled.div`
 `
 const StyledMovieCard=styled.div`
     position:relative;
-    &:hover ${StyledOverlay}{
-        opacity: 0.5;
-    }
 `
