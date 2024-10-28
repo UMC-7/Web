@@ -3,12 +3,12 @@ import useCustomFetch from "../hooks/useCustomFetch"
 import styled from "styled-components"
 import Detail from "../components/Detail"
 
-const MovieDetailPage=({props})=>{
+const MovieDetailPage=()=>{
     const {movieId}=useParams()
     const {data, isLoading, isError}=useCustomFetch(`/movie/${movieId}?language=ko-KR`)
     const {data:credit, isLoadingCredit, isErrorCredit}=useCustomFetch(`/movie/${movieId}/credits`)
     console.log(data)
-    console.log(credit)
+    console.log(credit.data)
 
     if(isLoading || isLoadingCredit){
         return(
@@ -20,7 +20,7 @@ const MovieDetailPage=({props})=>{
 
     return(
         <Container>
-            <Detail movie={data.data} credits={credit}></Detail>
+            <Detail movie={data.data} credits={credit.data}></Detail>
         </Container>
     )
 }
@@ -28,8 +28,8 @@ export default MovieDetailPage
 
 const Container=styled.div`
     display: flex;
-    height: 100vh;
     background-color: black;
+    flex-direction: column;
 `
 
 
