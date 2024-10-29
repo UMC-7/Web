@@ -1,4 +1,5 @@
 # 실습 1: 로그인 페이지 유효성 검사 구현
+- `react-hook-form`과 `yup` 라이브러리 활용
 
 ![image](https://github.com/user-attachments/assets/05c98f18-81ba-4789-9893-81a98553b243)
 
@@ -46,7 +47,7 @@ useEffect(() => {
  사용자가 상호 작용한 모든 입력을 포함하는 객체인 `touchedFields`를 이용해, email 혹은 password 필드가 사용자에 의해 포커스 되었는지에 대한 boolean 값을 확인하는 로직을 추가한다.
 
 ```jsx
-<p>{touchedFields.email && errors.email?.message}</p>
+{touchedFields.email && <p>{errors.email?.message}</p>}
 ```
 
 ### 로그인 버튼 비활성화 구현
