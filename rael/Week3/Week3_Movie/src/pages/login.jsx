@@ -1,7 +1,9 @@
-const Login = () => {
+import TitleStyle from "../components/TitleStyle";
+
+const LoginPage = () => {
     return (
-        <h1>Login Page 야호~!</h1>
+        <TitleStyle title="로그인 페이지"/>
     );
 };
 
-export default Login;
+export default LoginPage;

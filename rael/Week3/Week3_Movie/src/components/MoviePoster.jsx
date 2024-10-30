@@ -1,21 +1,93 @@
-import { MOVIES } from "../mocks/movies";
-import "../Movie.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import styled from "styled-components";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+const VITE_TMDB_TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
-export const MoviePoster = () => {
+export const MoviePoster = ({apiUrl}) => {
+
+    const [movies, setMovies] = useState([])
+
+    useEffect(() => {
+        const getMovies = async () => {
+            try {
+                const movies = await axios.get(apiUrl, {
+                    headers: {
+                        accept: 'application/json', 
+                        Authorization: `Bearer ${VITE_TMDB_TOKEN}`, 
+                    }
+                })
+                setMovies(movies);
+            } catch (error) {
+                console.error("영화 정보를 가져오는 중 오류 발생:", error);
+            }
+        }
+        getMovies();
+    }, [apiUrl]);
 
     return (
-        <div
-        style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}
-        > 
-            {MOVIES.results.map((movie) => (
-                <div className="movie" key={movie.id} style={{width: "150px", margin: "10px"}}>
-                    <img style={{width: "100%", height: "100%", borderRadius: "10px"}}
-                    src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
-                    <div className="overlay"></div>
-                </div>
+        <Container>
+            {movies.data?.results.map((movie) => (
+                <Movies key={movie.id}>
+                    <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
+                    <Overlay></Overlay>
+                    <Title>{movie.title}</Title>
+                    <ReleaseDate>{movie.release_date}</ReleaseDate>
+                </Movies>
             ))}
-        </div>
+        </Container>
     )
 }
+
+const Movies = styled.div`
+    position: relative;
+    width: 150px;
+    height: 220px;
+    margin: 10px;
+    padding-bottom: 55px;
+`
+
+const Overlay = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+
+    ${Movies}:hover & {
+        opacity: 1;
+    }
+`
+
+const Container = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`
+
+const Img = styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+`
+
+const Title = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    color: white;
+    margin-top: 5px;
+`;
+
+const ReleaseDate = styled.div`
+    display: flex;
+    color: white;
+    font-size: 11px;
+`;
