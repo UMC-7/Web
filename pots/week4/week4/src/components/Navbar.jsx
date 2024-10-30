@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <StyledNav>
       <Logo>
-      <LogoLink to={`/`}>YONGCHA</LogoLink>
+      <LogoLink to={`/`}>DONGCHA</LogoLink>
       </Logo>
       <div>
         <ButtonLink to={'/login'}>로그인</ButtonLink>
