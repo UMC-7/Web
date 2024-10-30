@@ -1,0 +1,10 @@
+body {
+    background-color: #22254b;
+}
+
+.movie-info h4 {
+    margin:0;
+}
+.movie-info span {
+    margin-left:3px;
+}
