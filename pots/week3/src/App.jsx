@@ -1,23 +1,61 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MOVIES } from './mocks/movies';
-import MovieItem from './components/MovieItem';
+//import { MOVIES } from './mocks/movies';
+//import MovieItem from './components/MovieItem';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import './App.css'
+import RootLayout from './layouts/root-layout';
+import View from './components/View';
+import Search from './pages/Search'
+import Categories from './pages/Categories';
+import NowPlaying from './pages/NowPlaying';
+import Popular from './pages/Popular';
+import TopRated from './pages/TopRated';
+import UpComing from './pages/UpComing';
 
-const MovieContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-`;
+//라우터 설정
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    // 1. Navbar 밑에 path에 해당하는 element를 보여주고 싶으면 아래와 같이 children을 활용
+    children: [
+      {
+        // 2. index: true는 위의 path: '/' 즉, 홈 경로를 의미한다.
+        index: true,
+        element: <View />,
+      },
+      {
+        // 3. 부모의 path가 '/'이니, /를 붙이지 않아도 /movies랑 동일하게 동작한다.
+        path: "/search",
+        element: <Search />,
+      },
+      {
+        path: "/movies",
+        element: <Categories />,
+      },
+      {
+        path: "/movies/now-playing",
+        element: <NowPlaying />,
+      },
+      {
+        path: "/movies/popular",
+        element: <Popular />,
+      },
+      {
+        path: "/movies/top-rated",
+        element: <TopRated />,
+      },
+      {
+        path: "/movies/up-coming",
+        element: <UpComing />,
+      }
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <MovieContainer>
-      {MOVIES.results.map((movie) => (
-        <MovieItem key={movie.id} posterPath={movie.poster_path} />
-      ))}
-    </MovieContainer>
-  );
+    return <RouterProvider router={router}/>;
 }
 
 export default App;
