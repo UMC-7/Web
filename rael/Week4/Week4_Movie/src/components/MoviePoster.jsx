@@ -8,7 +8,7 @@ export const MoviePoster = ({apiUrl}) => {
     const navigate = useNavigate();
 
     const ToMovieDetail = (movie) => {
-        navigate(`/movies/:${movie.id}`, {state: {movie}})
+        navigate(`/movies/${movie.id}`, {state: {movie}})
     }
 
     const { data: movies, isLoading, isError } = useCustomFetch(apiUrl)
