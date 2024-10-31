@@ -3,38 +3,37 @@ import { useLocation, useParams } from "react-router-dom";
 import useCustomFetch from "../../hooks/useCustomFetch";
 
 const MovieDetail = () => {
-    const { state } = useLocation();
     const { movieId } = useParams();
-    // console.log(movieId);
-    const imovie = state.movie;
+    //console.log(movieId);
     const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
-
+    const { data: imovie, isLoading, isError } = useCustomFetch(`/movie/${movieId}?language=ko-KR`);
     const { data: credit, isLoadingCredit, isErrorCredit } = useCustomFetch(`/movie/${movieId}/credits?language=ko-KR`);
 
-    if (isLoadingCredit) {
+    if (isLoading || isLoadingCredit) {
         return <div>
             <h1 style={{color:'white'}}>Loading...</h1>
         </div>
     }
     
-    if (isErrorCredit) {
+    if (isError || isErrorCredit) {
         return <div>
             <h1 style={{color:'white'}}>Error!!!</h1>
         </div>
     }
-    console.log(imovie);
+
+    //console.log(imovie.data.backdrop_path);
 
     return (
-        <>
+        <div>
             <DetailContainer>
                 <div>
-                    <Poster src={`${IMAGE_BASE_URL}${imovie.backdrop_path}`} alt={imovie.title}/>
+                    <Poster src={IMAGE_BASE_URL + imovie.data?.backdrop_path} alt={imovie.data?.title}/>
                     <Detail>
-                        <h1>{imovie.title}</h1>
-                        <h3>평점 {imovie.vote_average}</h3>
-                        <h3>개봉일 {imovie.release_date}</h3>
-                        <h3>{imovie.tagline}</h3>
-                        <p>{imovie.overview ? (imovie.overview) : 'TMDB에서 제공하는 상세 줄거리가 없습니다.'}</p>
+                        <h1>{imovie.data?.title}</h1>
+                        <h3>평점 {imovie.data?.vote_average}</h3>
+                        <h3>개봉일 {imovie.data?.release_date}</h3>
+                        <h3>{imovie.data?.tagline}</h3>
+                        <p>{imovie.data?.overview ? (imovie.data?.overview) : 'TMDB에서 제공하는 상세 줄거리가 없습니다.'}</p>
                         <hr/>
                     </Detail>
                 </div>
@@ -43,7 +42,7 @@ const MovieDetail = () => {
                 <h3>감독/출연</h3>
                 <h6>감독</h6>
                 <ul>
-                    {credit?.crew?.filter((member) => member.job === "Director").map((director) => (
+                    {credit.data?.crew?.filter((member) => member.job === "Director").map((director) => (
                     <li key={director.id}>
                         <Photo>
                             {director.profile_path ? (
@@ -58,7 +57,7 @@ const MovieDetail = () => {
                 </ul>
                 <h6>출연</h6>
                 <ul>
-                    {credit.cast?.map((actor) => (
+                    {credit.data?.cast?.map((actor) => (
                     <li key={actor.id}>
                         <Photo>
                             {actor.profile_path ? (
@@ -73,7 +72,7 @@ const MovieDetail = () => {
                 </ul>
                 <h6>제작진</h6>
                 <ul>
-                    {credit.crew?.map((member) => (
+                    {credit.data?.crew?.map((member) => (
                     <li key={member.id}>
                         <Photo>
                             {member.profile_path ? (
@@ -87,13 +86,16 @@ const MovieDetail = () => {
                     ))}
                 </ul>
             </CreditContainer>
-        </>
+        </div>
     );
 };
 
 export default MovieDetail;
 
 const DetailContainer = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
     height: auto;
 `
 
@@ -102,20 +104,36 @@ const CreditContainer = styled.div`
     color:white;
     text-align: center;
     width: 100vw;
+
+    li {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    }
+
+    ul{
+    display: flex;
+    font-size:12px;
+    }
 `
 
 const Poster = styled.img`
-    height:350px;
+    width: 100vw;
+    height: 100%;
     overflow: hidden;
     max-height: 350px;
     border-radius: 10px;
+    object-fit: cover;
 `
 
 const Detail = styled.div`
     position: absolute;
     width: 450px;
-    top: 100px;
-    left: 200px;
+    height: 100%;
+    top: 0px;
+    left: 0px;
     color: white;
     font-size: 15px;
     font-weight: 500;
@@ -125,5 +143,13 @@ const Detail = styled.div`
 `
 
 const Photo = styled.div`
+    max-height: 80px;
+    overflow: hidden;
+    border-radius: 100px
 
+    img{
+    width: 80px;
+    max-height: initial;
+    margin-top: -10%;
+    }
 `
