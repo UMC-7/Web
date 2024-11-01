@@ -6,11 +6,13 @@ import styled from "styled-components";
 const RootLayout = () => {
     return (
         <Container>
-            <Navbar/>
             <Sidebar/>
-            <Content>
-                <Outlet/>
-            </Content>
+            <Layout>
+                <Navbar/>
+                <Content>
+                    <Outlet/>
+                </Content>
+            </Layout>
         </Container>
     );
 };
@@ -22,12 +24,15 @@ const Container = styled.div`
     height: 100vh;
 `
 
-const Content = styled.div`
-    width: 100%;
-    height: 100%;
-    margin-top: 50px;
-    margin-left: 150px;
-    padding: 30px;
+const Layout = styled.main`
+    flex: 1;
     display: flex;
-    background-color: #202020;
+    flex-direction: column;
+`
+
+const Content = styled.div`
+    flex: 1;
+    background-color: #000;
+    padding: 30px;
+    overflow-y: auto;
 `

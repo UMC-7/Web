@@ -27,7 +27,7 @@ const MovieDetail = () => {
         <div>
             <DetailContainer>
                 <div>
-                    <Poster src={IMAGE_BASE_URL + imovie.data?.backdrop_path} alt={imovie.data?.title}/>
+                    <img src={IMAGE_BASE_URL + imovie.data?.backdrop_path} alt={imovie.data?.title}/>
                     <Detail>
                         <h1>{imovie.data?.title}</h1>
                         <h3>평점 {imovie.data?.vote_average}</h3>
@@ -40,48 +40,49 @@ const MovieDetail = () => {
             </DetailContainer>
             <CreditContainer>
                 <h3>감독/출연</h3>
-                <h6>감독</h6>
+                <h5>감독</h5>
                 <ul>
                     {credit.data?.crew?.filter((member) => member.job === "Director").map((director) => (
                     <li key={director.id}>
-                        <Photo>
+                        <div className="photo">
                             {director.profile_path ? (
                                 <img src={IMAGE_BASE_URL+director.profile_path} alt={director.name} />
                             ) : "No Image"}
-                        </Photo>
-                        <p>{director.name}</p><br/>
-                        <p>{director.job}</p>
-                        <p>({director.department})</p>
+                        </div>
+                        <p className="name">{director.name}</p>
+                        <p className="character">{director.job} ({director.department})</p>
                     </li>
                     ))}
                 </ul>
-                <h6>출연</h6>
+                <h5>출연</h5>
                 <ul>
                     {credit.data?.cast?.map((actor) => (
                     <li key={actor.id}>
-                        <Photo>
+                        <div className="photo">
                             {actor.profile_path ? (
                                 <img src={IMAGE_BASE_URL+actor.profile_path} alt={actor.original_name} />
-                            ) : "No Image"}
-                        </Photo>
-                        <p>{actor.original_name}</p><br/>
-                        <p>{actor.character}</p>
-                        <p>({actor.known_for_department})</p>
+                            ) : (
+                                <img src={'/black.jpg'} alt={'No image'} />
+                            )}
+                        </div>
+                        <p className="name">{actor.original_name}</p>
+                        <p className="character">{actor.character} ({actor.known_for_department})</p>
                     </li>
                     ))}
                 </ul>
-                <h6>제작진</h6>
+                <h5>제작진</h5>
                 <ul>
                     {credit.data?.crew?.map((member) => (
                     <li key={member.id}>
-                        <Photo>
+                        <div className="photo">
                             {member.profile_path ? (
                                 <img src={IMAGE_BASE_URL+member.profile_path} alt={member.name} />
-                            ) : "No Image"}
-                        </Photo>
-                        <p>{member.name}</p><br/>
-                        <p>{member.job}</p><br/>
-                        <p>({member.department})</p>
+                            ) : (
+                                <img src={'/black.jpg'} alt={'No image'} />
+                            )}
+                        </div>
+                        <p className="name">{member.name}</p>
+                        <p className="character">{member.job} ({member.department})</p>
                     </li>
                     ))}
                 </ul>
@@ -97,6 +98,15 @@ const DetailContainer = styled.div`
     display: flex;
     width: 100%;
     height: auto;
+
+    img {
+        width: 100vw;
+        height: 100%;
+        overflow: hidden;
+        max-height: 350px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
 `
 
 const CreditContainer = styled.div`
@@ -104,28 +114,55 @@ const CreditContainer = styled.div`
     color:white;
     text-align: center;
     width: 100vw;
+    height: 100hw;
+
+    div{
+        display: inline-block;
+    }
+
+    h3, h5{
+        text-align: left;
+    }
 
     li {
     list-style: none;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     text-align: center;
     }
 
     ul{
     display: flex;
-    font-size:12px;
+    font-size: 15px;
+    gap: 20px;
     }
-`
 
-const Poster = styled.img`
-    width: 100vw;
-    height: 100%;
-    overflow: hidden;
-    max-height: 350px;
-    border-radius: 10px;
-    object-fit: cover;
+    .photo{
+        max-height: 80px;
+        overflow: hidden;
+        outline: 2px solid white;
+        border-radius: 100px
+    }
+
+    .photo img{
+    width: 80px;
+    max-height: initial;
+    }
+
+    .name{
+        font-weight: 700;
+        padding: 8px;
+        height: 0px;
+    }
+
+    .character{
+        font-size: 10px;
+        color: gray;
+        padding: 8px;
+        height: 0px;
+    }
 `
 
 const Detail = styled.div`
@@ -140,16 +177,4 @@ const Detail = styled.div`
     background: rgba(0, 0, 0, 0.6);
     border-radius: 5px;
     padding: 5px;
-`
-
-const Photo = styled.div`
-    max-height: 80px;
-    overflow: hidden;
-    border-radius: 100px
-
-    img{
-    width: 80px;
-    max-height: initial;
-    margin-top: -10%;
-    }
 `
