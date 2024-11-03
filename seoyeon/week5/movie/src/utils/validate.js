@@ -20,4 +20,15 @@ function validateLogin(values){
     return validateUser(values)
 }
 
-export {validateLogin}
+function validateSignup(values){
+    const errors = {
+        ...validateUser(values),
+        passwordCheck:""
+    }
+    if(values.password !== values.passwordCheck){
+        errors.passwordCheck = "비밀번호가 다릅니다."
+    }
+    return errors
+}
+
+export {validateLogin, validateSignup}

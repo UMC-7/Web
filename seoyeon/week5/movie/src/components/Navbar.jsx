@@ -65,6 +65,3 @@ const StyledSignupButton=styled.button`
         background-color: #db4478;
     }
 `
-const StyledSignupButtonOverlay=styled.div`
-    
-`
