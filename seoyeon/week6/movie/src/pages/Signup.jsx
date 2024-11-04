@@ -2,9 +2,10 @@ import {StyledOutletFont} from "../components/OutletStyle";
 import styled from "styled-components";
 import useForm from "../hooks/useForm";
 import { validateSignup } from "../utils/validate";
+import usePost from "../hooks/usePost";
 
 const SignupPage=()=>{
-    const login = useForm({
+    const signup = useForm({
         initialValues:{
             email: "",
             password:"",
@@ -14,19 +15,21 @@ const SignupPage=()=>{
     })
 
     const submit=()=>{
-        console.log(login.values)
+        console.log(signup.values)
+        const result = usePost("/auth/register")
+        console.log("signup result:" ,result.data)
     }
 
     return(
         <Container>
             <StyledOutletFont>회원가입</StyledOutletFont>
-            <StyledLoginInput type={"email"} placeholder="이메일을 입력"{...login.getTextInputProps('email')}/>
-            {login.touched.email && <ErrorMessage>{login.error.email}</ErrorMessage>}
-            <StyledLoginInput type={"password"} placeholder="비밀번호를 입력" {...login.getTextInputProps("password")}/>
-            {login.touched.password && <ErrorMessage>{login.error.password}</ErrorMessage>}
-            <StyledLoginInput type={"password"} placeholder="비밀번호를 다시 입력" {...login.getTextInputProps("passwordCheck")}/>
-            {login.touched.passwordCheck && <ErrorMessage>{login.error.passwordCheck}</ErrorMessage>}
-            <StyledInputSubmitButton onClick={submit} disabled={login.error.email || login.error.password || login.error.passwordCheck}>제출</StyledInputSubmitButton>
+            <StyledLoginInput type={"email"} placeholder="이메일을 입력"{...signup.getTextInputProps('email')}/>
+            {signup.touched.email && <ErrorMessage>{signup.error.email}</ErrorMessage>}
+            <StyledLoginInput type={"password"} placeholder="비밀번호를 입력" {...signup.getTextInputProps("password")}/>
+            {signup.touched.password && <ErrorMessage>{signup.error.password}</ErrorMessage>}
+            <StyledLoginInput type={"password"} placeholder="비밀번호를 다시 입력" {...signup.getTextInputProps("passwordCheck")}/>
+            {signup.touched.passwordCheck && <ErrorMessage>{signup.error.passwordCheck}</ErrorMessage>}
+            <StyledInputSubmitButton onClick={submit} disabled={signup.error.email || signup.error.password || signup.error.passwordCheck}>제출</StyledInputSubmitButton>
         </Container>    
     )
 }
