@@ -10,7 +10,7 @@ function UncontrolledInput() {
     return (
         <div>
             <input type="text" ref={inputRef}/>
-            <button onClick={handleSubmit}>제출</button>
+            
         </div>
     )
 }
