@@ -1,0 +1,35 @@
+.todo-form {
+  margin-bottom: 20px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.todo-button {
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+}
+
+.todo-button2 {
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+}
+
+.todo-button3 {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+}
+
+.todo-button:hover {
+  background-color: green;
+}
