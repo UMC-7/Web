@@ -1,0 +1,21 @@
+.item-button{
+  background-color: peachpuff;
+}
+.add-button{
+  background-color: palegreen;
+}
+.todo-item{
+  margin:5px;
+  border-style: inset;
+  background-color: paleturquoise;
+  display:flex;
+  justify-content:space-between;
+  height:30px ;
+  width:30vw;
+}
+.todo-list{
+  display: flex;
+  flex-direction: column;
+  width:40vw;
+  background-color: beige;
+}
