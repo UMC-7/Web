@@ -1,35 +1,62 @@
 import TitleStyle from "../../components/TitleStyle";
-import {useForm} from 'react-hook-form'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup';
+import useForm from "../../hooks/useForm";
+import { validateLogin } from "../../utils/validate";
+import styled from "styled-components";
 
 const LoginPage = () => {
-    const schema = yup.object().shape({
-        email: yup.string().email('올바른 이메일 형식이 아닙니다. 다시 확인해주세요!').required(),
-        password: yup.string().min(8, '비밀번호는 8~16자 사이로 입력해주세요!').max(16, '비밀번호는 8~16자 사이로 입력해주세요!').required(),
-    })
+    const login = useForm(
+        {email: '', password: ''}, 
+        validateLogin
+    )
 
-    const {register, handleSubmit, formState: {errors}} = useForm({
-        resolver: yupResolver(schema)
-    });
-
-    const onSubmit = (data) => {
-        console.log('폼 데이터 제출');
-        console.log(data);
+    const handlePressLogin = () => {
+        console.log(login.values.email, login.values.password);
     }
 
     return (
-        <>
-            <TitleStyle title="로그인"/>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input type='email' {...register("email")}/>
-                <p style={{color: 'red', fontSize: '13px'}}>{errors.email?.message}</p>
-                <input type='password' {...register('password')}/>
-                <p style={{color: 'red', fontSize: '13px'}}>{errors.password?.message}</p>
-                <button onClick={handleSubmit}>로그인</button>
-            </form>
-        </>
+        <Container>
+            <Input 
+                error={login.touched.email && login.errors.email}
+                type={'email'} 
+                placeholder={'이메일을 입력해주세요!'} 
+                {...login.getTextInputProps('email')}/>
+            {login.touched.email && login.errors.email && <ErrorText>{login.errors.email}</ErrorText>}
+            <Input 
+                error={login.touched.password && login.errors.password}
+                type={'password'} 
+                placeholder={'비밀번호를 입력해주세요!'} 
+                {...login.getTextInputProps('password')}/>
+            {login.touched.password && login.errors.password && <ErrorText>{login.errors.password}</ErrorText>}
+
+            <button onClick={handlePressLogin}>로그인</button>
+        </Container>
     );
 };
 
 export default LoginPage;
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+
+const Input = styled.input`
+    margin: 10px;
+    padding: 8px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    border: ${props => props.error ? '4px solid red' : '1px solid #ccc'};
+
+    &:focus {
+        border-color: #007bff;
+    }
+`
+
+const ErrorText = styled.h1`
+    color: red;
+    font-size: 12px;
+`
