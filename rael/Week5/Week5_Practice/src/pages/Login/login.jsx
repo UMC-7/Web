@@ -13,8 +13,13 @@ const LoginPage = () => {
         console.log(login.values.email, login.values.password);
     }
 
+    const isFormValid = login.errors.email === '' && login.errors.password === '';
+    console.log(login.errors);
+    console.log(isFormValid);
+
     return (
         <Container>
+            <Title>로그인</Title>
             <Input 
                 error={login.touched.email && login.errors.email}
                 type={'email'} 
@@ -28,7 +33,7 @@ const LoginPage = () => {
                 {...login.getTextInputProps('password')}/>
             {login.touched.password && login.errors.password && <ErrorText>{login.errors.password}</ErrorText>}
 
-            <button onClick={handlePressLogin}>로그인</button>
+            <Login onClick={handlePressLogin} disabled={!isFormValid}>로그인</Login>
         </Container>
     );
 };
@@ -42,21 +47,49 @@ const Container = styled.div`
     justify-content: center;
 `
 
+const Title = styled.h1`
+    color: white;
+    margin-top: 80px;
+    padding: 30px;
+`
+
 const Input = styled.input`
     margin: 10px;
-    padding: 8px;
-    width: 300px;
+    padding: 18px;
+    width: 320px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-
+    border-radius: 7px;
     border: ${props => props.error ? '4px solid red' : '1px solid #ccc'};
 
     &:focus {
         border-color: #007bff;
+    }
+
+    &::placeholder {
+        font-size: 16px;
+        color: #999;
+    }
+`
+
+const Login = styled.button`
+    color: white;
+    padding: 15px;
+    margin: 10px;
+    width: 365px;
+    font-weight: 800;
+    font-size: 15px;
+    background-color: ${props => props.disabled ? '#ccc' : '#FF1183'};
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+
+    &:hover {
+        background-color: ${props => props.disabled ? '#ccc' : 'lightgray'};
     }
 `
 
 const ErrorText = styled.h1`
     color: red;
     font-size: 12px;
+    margin-top: 5px;
 `
