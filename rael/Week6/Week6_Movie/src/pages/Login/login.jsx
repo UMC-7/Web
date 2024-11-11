@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import TitleStyle from "../../components/TitleStyle";
 import useForm from "../../hooks/useForm";
 import { validateLogin } from "../../utils/validate";
@@ -9,13 +10,50 @@ const LoginPage = () => {
         validateLogin
     )
 
+    const navigate = useNavigate();
+
     const handlePressLogin = () => {
         console.log(login.values.email, login.values.password);
+
+        if (!login.values.email) {
+            alert('이메일을 입력해주세요!');
+            return;
+        }
+        
+        fetch('http://localhost:3000/auth/login', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json', 
+            }, 
+            body: JSON.stringify({email: login.values.email, password: login.values.password})
+        })
+        .then(response => {
+            if(!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Login Success:', data);
+            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('accessToken', data.accessToken);
+
+            const name = login.values.email.substring(0, login.values.email.indexOf('@'));
+            localStorage.setItem('name', name);
+
+            alert('로그인이 완료되었습니다.');
+            navigate('/');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.log('Login Error', error);
+            alert('로그인에 실패하였습니다.');
+        });
     }
 
-    const isFormValid = login.errors.email === '' && login.errors.password === '';
-    //console.log(login.errors);
-    //console.log(isFormValid);
+    const isFormValid = Object.keys(login.errors).length === 0;
+    console.log(login.errors);
+    console.log(isFormValid);
 
     return (
         <Container>

@@ -2,6 +2,7 @@ import TitleStyle from "../../components/TitleStyle";
 import useForm from "../../hooks/useForm";
 import { validateSignUp } from "../../utils/validate";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
     const login = useForm(
@@ -9,9 +10,34 @@ const SignUpPage = () => {
         validateSignUp
     )
 
+    const navigate = useNavigate();
+
     const handlePressLogin = () => {
         console.log(login.values.email, login.values.password, login.values.passwordcheck);
-    }
+
+        fetch('http://localhost:3000/auth/register', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json', 
+            }, 
+            body: JSON.stringify({email: login.values.email, password: login.values.password, passwordCheck: login.values.passwordcheck})
+        })
+        .then(response => {
+            if(!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            alert('회원가입이 완료되었습니다.');
+            navigate('/login');
+        })
+        .catch(error => {
+            console.log('Error', error);
+            alert('회원가입에 실패하였습니다.');
+        });
+    };
 
     const isFormValid = Object.keys(login.errors).length === 0;
     console.log(login.errors);
