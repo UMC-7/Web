@@ -37,13 +37,16 @@ const LoginPage = () => {
             console.log('Login Success:', data);
             localStorage.setItem('refreshToken', data.refreshToken);
             localStorage.setItem('accessToken', data.accessToken);
+            // 로컬스토리지에 리프레쉬토큰, 엑세스토큰 저장함.
 
             const name = login.values.email.substring(0, login.values.email.indexOf('@'));
             localStorage.setItem('name', name);
+            // 로컬스토리지에 이메일 @전까지 substring해서 name으로 저장함.
 
             alert('로그인이 완료되었습니다.');
             navigate('/');
             window.location.reload();
+            // 새로고침을 해야 화면이 바뀌므로, reload해줌.
         })
         .catch(error => {
             console.log('Login Error', error);
