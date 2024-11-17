@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react'
 import React from 'react'
-import Todo from './todo'
 import './App.css'
 import { TodoContext } from './context/TodoContext'
+import Todo from './Todo'
 
 const TodoList=()=>{
     const {        
