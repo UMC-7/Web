@@ -2,10 +2,9 @@ import styled from "styled-components";
 import {StyledOutletFont} from "../components/OutletStyle";
 import useForm  from "../hooks/useForm";
 import  {validateLogin}  from "../utils/validate"
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import usePost from "../hooks/usePost";
 import axios from "axios";
-import { LoginContext } from "../context/LoginProvider";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const LoginPage=()=>{
@@ -14,7 +13,6 @@ const LoginPage=()=>{
     const [result, setResult] = useState({})
     const navigate = useNavigate()
 
-    const {setLoginText} = useContext(LoginContext)
 
     const login = useForm({
         initialValues :{

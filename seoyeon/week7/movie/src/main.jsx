@@ -5,7 +5,5 @@ import './index.css'
 import { LoginContextProvider } from './context/LoginProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
-    <LoginContextProvider>
-            <App />
-    </LoginContextProvider>
+    <App />
 )
