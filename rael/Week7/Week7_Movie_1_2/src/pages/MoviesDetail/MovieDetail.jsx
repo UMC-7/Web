@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import useCustomFetch from "../../hooks/useCustomFetch";
 import { useQuery } from "@tanstack/react-query";
 import { useGetMovies } from "../../hooks/queries/useGetMovies";
+import Skeleton_detail from "../../components/detail-skeleton/Skeleton_detail";
 
 const MovieDetail = () => {
     const { movieId } = useParams();
@@ -28,7 +29,7 @@ const MovieDetail = () => {
     
     if (isPending || isPendingCredits) {
         return <div>
-        <h1 style={{color:'white'}}>Loading...</h1>
+            <Skeleton_detail/>
         </div>
     }
     
