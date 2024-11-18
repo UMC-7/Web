@@ -1,16 +1,43 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { useEffect, useState } from 'react';
 
 const Navbar = () => {
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    const storedName = localStorage.getItem('name');
+    if (storedName) {
+      setName(storedName);
+    }
+}, []);
+
+
+  const handleLogout = () => {
+    localStorage.removeItem('name');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setName('');
+  };
+
+
   return (
     <StyledNav>
       <Logo>
-      <LogoLink to={`/`}>DONGCHA</LogoLink>
+        <LogoLink to={`/`}>DONGCHA</LogoLink>
       </Logo>
       <div>
-        <ButtonLink to={'/login'}>로그인</ButtonLink>
-        <ButtonLink to={'/signup'}>회원가입</ButtonLink>
+        {name ? (
+          <>
+            <UserName>{name}님 안녕하세요</UserName>
+            <ButtonLink as="button" onClick={handleLogout}>로그아웃</ButtonLink>
+          </>
+        ) : (
+          <>
+            <ButtonLink to={'/login'}>로그인</ButtonLink>
+            <ButtonLink to={'/signup'}>회원가입</ButtonLink>
+          </>
+        )}
       </div>
     </StyledNav>
   );
@@ -60,4 +87,9 @@ const ButtonLink = styled(Link)`
   &:hover {
     background-color: darkgray;
   }
+`;
+
+const UserName = styled.span`
+  color: white;
+  margin-right: 20px;
 `;
