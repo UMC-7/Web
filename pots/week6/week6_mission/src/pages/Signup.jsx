@@ -1,115 +1,195 @@
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
-import styled from 'styled-components';
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-// yup 스키마 정의
-const schema = yup.object().shape({
-  email: yup.string().email('올바른 이메일 형식이 아닙니다.').required('이메일은 필수 입력 항목입니다.'),
-  password: yup
-    .string()
-    .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
-    .max(16, '비밀번호는 최대 16자 이하이어야 합니다.')
-    .required('비밀번호는 필수 입력 항목입니다.'),
-});
+const SignupPage = () => {
+  const [email, setEmail] = useState("");
+  const [pw, setPw] = useState("");
+  const [checkPw, setCheckPw] = useState("");
 
-const SignUpPage = () => {
-  const { register, handleSubmit, formState: { errors, isValid }, setValue, trigger } = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(schema),
-  });
-  const [touched, setTouched] = useState({ email: false, password: false });
+  const [emailValid, setEmailValid] = useState(false);
+  const [pwValid, setPwValid] = useState(false);
+  const [checkPwValid, setCheckPwValid] = useState(false);
+  const [allValid, setAllValid] = useState(false);
 
-  // 입력 필드 클릭 시 터치 상태 업데이트
-  const handleFocus = (field) => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+
+    if (e.target.value.includes("@")) {
+      setEmailValid(true);
+      if (e.target.value.endsWith(".")) {
+        setEmailValid(false);
+      }
+    } else {
+      setEmailValid(false);
+    }
   };
 
-  // 제출 함수
-  const onSubmit = (data) => {
-    console.log('폼 데이터 제출:', data);
+  const handlePw = (e) => {
+    const inputValue = e.target.value;
+    setPw(inputValue);
+
+    const hasLetter = /[a-zA-Z]/.test(inputValue);
+    const isValidLength = inputValue.length >= 8 && inputValue.length <= 16;
+
+    if (hasLetter && isValidLength) {
+      setPwValid(true);
+    } else {
+      setPwValid(false);
+    }
+  };
+
+  const handleCheckPw = (e) => {
+    setCheckPw(e.target.value);
+
+    if (e.target.value === pw) {
+      setCheckPwValid(true);
+    } else {
+      setCheckPwValid(false);
+    }
+  };
+
+  useEffect(() => {
+    setAllValid(emailValid && pwValid && checkPwValid);
+  }, [emailValid, pwValid, checkPwValid]);
+
+  const navigate = useNavigate();
+
+
+  //모두 valid 할 경우에만 submit이 가능하도록 handleSubmit 함수
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (allValid) {
+      const userData = {
+        email: email,
+        password: pw,
+        passwordCheck: checkPw
+      };
+
+      fetch('http://localhost:3000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        alert('회원가입 성공');
+        navigate('/login');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('회원가입 실패');
+      });
+    } else {
+      alert('입력하신 정보를 다시 확인해주세요.');
+    }
   };
 
   return (
-    <SignupContainer>
-      <SignupForm onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <Input
-            type="email"
-            {...register('email')}
-            placeholder="이메일"
-            onFocus={() => handleFocus('email')}
-            onBlur={() => trigger('email')} // 이메일 필드에서 포커스 아웃 시 유효성 검사
-          />
-          {touched.email && errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+    <SignupBlock>
+      <h3>회원가입 페이지</h3>
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="이메일을 입력해주세요"
+          value={email}
+          onChange={handleEmail}
+        />
+        <div className="errorMessage">
+          {!emailValid && <div>이메일을 반드시 입력해주세요.</div>}
         </div>
-        <div>
-          <Input
-            type="password"
-            {...register('password')}
-            placeholder="비밀번호"
-            onFocus={() => handleFocus('password')}
-            onBlur={() => trigger('password')} // 비밀번호 필드에서 포커스 아웃 시 유효성 검사
-          />
-          {touched.password && errors.password && <ErrorText>{errors.password.message}</ErrorText>}
+
+        <br />
+
+        <input
+          placeholder="비밀번호를 입력해주세요"
+          value={pw}
+          onChange={handlePw}
+          type="password"
+        />
+        <div className="errorMessage">
+          {!pwValid && (
+            <div>
+              비밀번호 8자 이상
+            </div>
+          )}
         </div>
-        <SignupButton type="submit" disabled={!isValid}>
-          로그인
-        </SignupButton>
-      </SignupForm>
-    </SignupContainer>
+        <br />
+
+        <input
+          placeholder="비밀번호 확인"
+          value={checkPw}
+          onChange={handleCheckPw}
+          type="password"
+        />
+        <div className="errorMessage">
+          {!checkPwValid && (
+            <div>비밀번호 검증 필수.</div>
+          )}
+        </div>
+        <br />
+        <br />
+        <button
+          type="submit"
+        >
+          제출하기
+        </button>
+
+        <br />
+        <br />
+        <br />
+
+        <div className="exist">이미 아이디가 있으신가요?</div>
+        <div className="goLogin">로그인 페이지로 이동하기</div>
+      </form>
+    </SignupBlock>
   );
 };
 
-export default SignUpPage;
+export default SignupPage;
 
-// 스타일 정의
-const SignupContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: black;
-`;
-
-const SignupForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-`;
-
-const Input = styled.input`
-  height: 40px;
-  margin-bottom: 5px;
-  padding: 0 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  &:focus {
-    outline: none;
-    border-color: black;
-  }
-`;
-
-const ErrorText = styled.p`
-  color: red;
-  font-size: 12px;
-  margin: 0 0 10px;
-`;
-
-const SignupButton = styled.button`
-  height: 40px;
-  background-color: ${({ disabled }) => (disabled ? 'gray' : 'red')};
+const SignupBlock = styled.div`
   color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  &:hover {
-    background-color: ${({ disabled }) => (disabled ? 'gray' : 'darkred')};
+  text-align: center;
+
+  input {
+    width: 470px;
+    height: 35px;
+    border-radius: 50px;
+    padding-left: 30px;
+  }
+
+  button {
+    width: 500px;
+    height: 45px;
+    border-radius: 50px;
+    background-color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .errorMessage {
+    font-size: 13px;
+    color: red;
+  }
+
+  .exist {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 0.9rem;
+  }
+  .goLogin {
+    display: inline-block;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
   }
 `;
