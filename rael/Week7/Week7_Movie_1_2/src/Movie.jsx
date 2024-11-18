@@ -12,6 +12,8 @@ import Popular from './pages/Popular/popular.jsx'
 import TopRated from './pages/TopRated/toprated.jsx'
 import UpComing from './pages/UpComing/upcoming.jsx'
 import MovieDetail from './pages/MoviesDetail/MovieDetail.jsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const router = createBrowserRouter([
   {
@@ -31,10 +33,16 @@ const router = createBrowserRouter([
     ]
   }
 ])
+const queryClient = new QueryClient()
 
 function Movie() {
 
-  return <RouterProvider router={router} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
 }
 
 export default Movie

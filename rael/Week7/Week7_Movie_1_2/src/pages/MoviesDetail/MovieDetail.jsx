@@ -1,17 +1,34 @@
 import styled from "styled-components";
 import { useLocation, useParams } from "react-router-dom";
 import useCustomFetch from "../../hooks/useCustomFetch";
+import { useQuery } from "@tanstack/react-query";
+import { useGetMovies } from "../../hooks/queries/useGetMovies";
 
 const MovieDetail = () => {
     const { movieId } = useParams();
     //console.log(movieId);
     const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
-    const { data: imovie, isLoading, isError } = useCustomFetch(`/movie/${movieId}?language=ko-KR`);
-    const { data: credit, isLoadingCredit, isErrorCredit } = useCustomFetch(`/movie/${movieId}/credits?language=ko-KR`);
 
-    if (isLoading || isLoadingCredit) {
+    const {data: moviedetail, isPending, isError} = useQuery({
+        queryFn: () => useGetMovies({categories: movieId, pageParam: 1}), 
+        queryKey: ['moviedetail', movieId], 
+        cacheTime: 10000,
+        staleTime: 10000,  
+    })
+
+    const {data: credit, isPendingCredits, isErrorCredit} = useQuery({
+        queryFn: () => useGetMovies({categories: `${movieId}/credits`, pageParam: 1}), 
+        queryKey: ['credit', `${movieId}/credits`], 
+        cacheTime: 10000,
+        staleTime: 10000,  
+    })
+
+    // isPending: 데이터를 불러오는 중입니다. 데이터가 로딩중일때 IsPending true.
+    // isLoading: 데이터를 불러오는 중이거나, 재시도 중일때 true가 된다.
+    
+    if (isPending || isPendingCredits) {
         return <div>
-            <h1 style={{color:'white'}}>Loading...</h1>
+        <h1 style={{color:'white'}}>Loading...</h1>
         </div>
     }
     
@@ -27,13 +44,13 @@ const MovieDetail = () => {
         <div>
             <DetailContainer>
                 <div>
-                    <img src={IMAGE_BASE_URL + imovie.data?.backdrop_path} alt={imovie.data?.title}/>
+                    <img src={IMAGE_BASE_URL + moviedetail?.backdrop_path} alt={moviedetail?.title}/>
                     <Detail>
-                        <h1>{imovie.data?.title}</h1>
-                        <h3>평점 {imovie.data?.vote_average}</h3>
-                        <h3>개봉일 {imovie.data?.release_date}</h3>
-                        <h3>{imovie.data?.tagline}</h3>
-                        <p>{imovie.data?.overview ? (imovie.data?.overview) : 'TMDB에서 제공하는 상세 줄거리가 없습니다.'}</p>
+                        <h1>{moviedetail?.title}</h1>
+                        <h3>평점 {moviedetail?.vote_average}</h3>
+                        <h3>개봉일 {moviedetail?.release_date}</h3>
+                        <h3>{moviedetail?.tagline}</h3>
+                        <p>{moviedetail?.overview ? (moviedetail?.overview) : 'TMDB에서 제공하는 상세 줄거리가 없습니다.'}</p>
                         <hr/>
                     </Detail>
                 </div>
@@ -42,8 +59,8 @@ const MovieDetail = () => {
                 <h3>감독/출연</h3>
                 <h5>감독</h5>
                 <ul>
-                    {credit.data?.crew?.filter((member) => member.job === "Director").map((director) => (
-                    <li key={director.id}>
+                    {credit?.crew?.filter((member) => member.job === "Director").map((director, index) => (
+                    <li key={`${director.id}-${index}`}>
                         <div className="photo">
                             {director.profile_path ? (
                                 <img src={IMAGE_BASE_URL+director.profile_path} alt={director.name} />
@@ -56,8 +73,8 @@ const MovieDetail = () => {
                 </ul>
                 <h5>출연</h5>
                 <ul>
-                    {credit.data?.cast?.map((actor) => (
-                    <li key={actor.id}>
+                    {credit?.cast?.map((actor, index) => (
+                    <li key={`${actor.id}-${index}`}>
                         <div className="photo">
                             {actor.profile_path ? (
                                 <img src={IMAGE_BASE_URL+actor.profile_path} alt={actor.original_name} />
@@ -72,8 +89,8 @@ const MovieDetail = () => {
                 </ul>
                 <h5>제작진</h5>
                 <ul>
-                    {credit.data?.crew?.map((member) => (
-                    <li key={member.id}>
+                    {credit?.crew?.map((member, index) => (
+                    <li key={`${member.id}-${index}`}>
                         <div className="photo">
                             {member.profile_path ? (
                                 <img src={IMAGE_BASE_URL+member.profile_path} alt={member.name} />
