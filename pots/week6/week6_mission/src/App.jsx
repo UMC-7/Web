@@ -10,6 +10,7 @@ import UpComing from "./pages/UpComing";
 import MainPage from "./pages/Main";
 import MovieDetail from "./pages/MovieDetail";
 import SignupPage from "./pages/Signup";
+import LoginPage from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupPage/>,
+      },
+      {
+        path: "/login",
+        element: <LoginPage/>
       }
     ],
   },
