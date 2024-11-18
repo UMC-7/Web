@@ -26,7 +26,7 @@ const Container = styled.div`
 `
 
 const Main = styled.div`
-    width: 140px;
+    width: 150px;
     height: 210px;
     background-color: rgb(230, 230, 230);
     border-radius: 10px;
@@ -35,7 +35,7 @@ const Main = styled.div`
 `
 
 const TextWrapper = styled.div`
-    width: 140px;
+    width: 150px;
     height: 30px;
     display: flex;
     flex-direction: column;

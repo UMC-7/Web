@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useGetMovies } from "../hooks/queries/useGetMovies";
 import SkeletonList from "../components/card-skeleton/SkeletonList";
+import { useGetInfiniteMovies } from "../hooks/queries/useGetInfiniteMovies";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import ClipLoader from "react-spinners/ClipLoader"
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -15,12 +19,33 @@ export const MoviePoster = ({category}) => {
         console.log(movie);
     }
 
+    /*
     const {data: movies, isPending, isError} = useQuery({
         queryFn: () => useGetMovies({categories: category, pageParam: 1}), 
         queryKey: ['movies', category], 
         cacheTime: 10000,
         staleTime: 10000,  
     })
+    */
+
+    const {
+        data: movies, 
+        isPending, 
+        isError, 
+        isFetching, 
+        hasNextPage, 
+        fetchNextPage, 
+    } = useGetInfiniteMovies(category);
+
+    const {ref, inView} = useInView({
+        threshold: 0, 
+    })
+
+    useEffect(() => {
+        if (inView) {
+            !isFetching && hasNextPage && fetchNextPage();
+        }
+    }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
     // isPending: 데이터를 불러오는 중입니다. 데이터가 로딩중일때 IsPending true.
     // isLoading: 데이터를 불러오는 중이거나, 재시도 중일때 true가 된다.
@@ -39,14 +64,34 @@ export const MoviePoster = ({category}) => {
 
     return (
         <Container>
-            {movies?.results.map((movie) => (
-                <Movies key={movie.id} onClick={() => {ToMovieDetail(movie)}}>
-                    <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
-                    <Overlay></Overlay>
-                    <Title>{movie.title}</Title>
-                    <ReleaseDate>{movie.release_date}</ReleaseDate>
-                </Movies>
-            ))}
+            {movies?.pages
+                ?.map(page => page.results)
+                .flat()
+                .map((movie,_) => 
+                    <Movies key={movie.id} onClick={() => {ToMovieDetail(movie)}}>
+                        <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
+                        <Overlay></Overlay>
+                        <Title>{movie.title}</Title>
+                        <ReleaseDate>{movie.release_date}</ReleaseDate>
+                    </Movies>
+                )}
+
+            {/*
+            {movies?.pages.map((page) => 
+                page.results.map((movie) => (
+                    <Movies key={movie.id} onClick={() => {ToMovieDetail(movie)}}>
+                        <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
+                        <Overlay></Overlay>
+                        <Title>{movie.title}</Title>
+                        <ReleaseDate>{movie.release_date}</ReleaseDate>
+                    </Movies>
+                ))
+            )}
+            */}
+            {isFetching && <SkeletonList number={16}/>}
+            <Loader ref={ref}>
+                {isFetching && <ClipLoader color={'#fff'}/>}
+            </Loader>
         </Container>
     )
 }
@@ -102,3 +147,10 @@ const ReleaseDate = styled.div`
     color: white;
     font-size: 11px;
 `;
+
+const Loader = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 50px;
+`
