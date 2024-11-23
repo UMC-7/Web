@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
 import './App.css';
+import Button from './components/button';
+import Input from './components/Input'
 
 function App() {
   // 투두리스트, 화면에 출력되는 (추가, 삭제, 수정)
@@ -9,7 +11,6 @@ function App() {
   ]);
   
   const nextID = useRef(2); // 단순히 ID 값을 증가하기 위한 도구이므로 랜더링 주기에 영향을 주지 않는 useRef 사용
-
   const [text, setText] = useState(''); // 초기 입력값 상태관리
   const [editingId, setEditingId] = useState(''); // 수정 id 상태관리
   const [editText, setEditText] = useState(''); // 수정 내용 상태관리
@@ -38,31 +39,35 @@ function App() {
   // 2. 삭제하기
   const deleteTodo = (id) => {
     setTodos((prev) => prev.filter((item) => item.id !== id))
-  } // item
+  } // 해당 Id를 제외한 배열로 갱신
 
   // 3. 수정하기(핵심)
   const updateTodo = (id, text) => {
     if(editText.trim().length === 0) {
-      alert("수정할 내용을 입력해주세요!")
+      //alert("수정할 내용을 입력해주세요!") 아무것도 입력하지 않아도 되돌아가는 거 고려해서
+      //alert 안 나오게 하는게 더 사용자 입장에서 좋은듯.
     } 
     else {
     setTodos((prev) => 
       prev.map((item) => (item.id === id ? {...item, task: text} : item)));
     };
     setEditingId(''); // 상태 변화를 이르켜 리랜더링
+    setEditText(''); // 수정 입력 필드 초기화
   }
   
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input 
+        <Input 
+          className='todo-input'
           type = 'text'
           value={text}
-          onChange={(e)=> setText(e.target.value)} 
+          placeholder='할 일을 입력하세요'
+          onChange={(e)=> setText(e.target.value)}
         />
-        <button onClick={() => addTodo()} type='submit'>
+        <Button onClick={addTodo} type='submit' className='add-button'>
           할 일 등록
-        </button> 
+        </Button> 
       </form>
       <div>
         {todos.map((todo, _) => (
@@ -78,18 +83,21 @@ function App() {
             {editingId === todo.id && (
             <div key={todo.id} style={{ display: 'flex', gap: '5px'}}>
               <p>{todo.id}. </p>
-              <input defaultValue={todo.task}
-              onChange={(e) => setEditText(e.target.value)}/>
+              <Input
+                className='edit-input'
+                type='text'
+                defaultValue={todo.task}
+                onChange={(e) => setEditText(e.target.value)}/>
             </div>
             )}
-            <button onClick={ () => deleteTodo(todo.id)}>삭제하기</button>
+            <Button onClick={ () => deleteTodo(todo.id)} className='delete-button'>삭제하기</Button>
 
             {/* editingId !== todo.id 수정이 아닌 상태 */}
             {/* editingId === todo.id 수정 중인 상태 */}
             {editingId === todo.id ? (
-              <button onClick={ () => updateTodo(editingId, editText)}>수정완료</button>
+              <Button onClick={ () => updateTodo(editingId, editText)} className='updateComplete-button'>수정완료</Button>
             ) : (
-              <button onClick={ () => setEditingId(todo.id)}>수정하기</button>
+              <Button onClick={ () => setEditingId(todo.id)} className='edit-button'>수정하기</Button>
             )}
           </div> 
           ))
