@@ -8,7 +8,7 @@ function App() {
     { id: 2, task: '희연 해원 혜윤 건 찬민'},
   ]);
   
-  const nextID = useRef(1); // 단순히 ID 값을 증가하기 위한 도구이므로 랜더링 주기에 영향을 주지 않는 useRef 사용
+  const nextID = useRef(2); // 단순히 ID 값을 증가하기 위한 도구이므로 랜더링 주기에 영향을 주지 않는 useRef 사용
 
   const [text, setText] = useState(''); // 초기 입력값 상태관리
   const [editingId, setEditingId] = useState(''); // 수정 id 상태관리
@@ -26,25 +26,30 @@ function App() {
   const addTodo = () => {
     if(text.trim().length === 0) {
       alert("투두리스트를 입력해주세요!")
-      return; // 함수를 조기 종료하여 추가 작업 중단.
     }
+    else {
     setTodos((prev) => [
       ...prev, {id: nextID.current, task: text},]);
-    setText(''); // 입력 필드 초기화
+    setText(''); // 입력 필드 초기화(랜더링 유도)
     nextID.current += 1;
+    }  
   };
 
   // 2. 삭제하기
   const deleteTodo = (id) => {
     setTodos((prev) => prev.filter((item) => item.id !== id))
-  }
+  } // item
 
   // 3. 수정하기(핵심)
   const updateTodo = (id, text) => {
-    setTodos((prev) =>
-      prev.map((item) => (item.id === id ? {...item, task: text} : item))
-    );
-    setEditingId('');
+    if(editText.trim().length === 0) {
+      alert("수정할 내용을 입력해주세요!")
+    } 
+    else {
+    setTodos((prev) => 
+      prev.map((item) => (item.id === id ? {...item, task: text} : item)));
+    };
+    setEditingId(''); // 상태 변화를 이르켜 리랜더링
   }
   
   return (
@@ -84,7 +89,7 @@ function App() {
             {editingId === todo.id ? (
               <button onClick={ () => updateTodo(editingId, editText)}>수정완료</button>
             ) : (
-              <button onClick={ () => updateTodo(editingId, text)}>수정하기</button>
+              <button onClick={ () => setEditingId(todo.id)}>수정하기</button>
             )}
           </div> 
           ))
