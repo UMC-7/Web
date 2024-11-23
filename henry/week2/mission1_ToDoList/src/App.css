@@ -1,36 +1,104 @@
+/* 공통 스타일 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9; /* 유튜브 스타일의 배경색 */
+}
 
-.todo-form {
-  margin-bottom: 20px;
+.todo-container {
+  width: 80%;
+  max-width: 600px;
+  margin: 30px auto; /* 가운데 정렬 */
+  background: white; /* 깔끔한 배경 */
+  padding: 20px;
+  border-radius: 8px; /* 살짝 둥근 테두리 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 살짝 들어간 느낌 */
+}
+
+/* 입력 필드 스타일 */
+.todo-input, .edit-input {
+  width: 100%; /* 입력 창 넓게 */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.todo-input:focus, .edit-input:focus {
+  border-color: #1e90ff; /* 포커스 시 파란색 테두리 */
+  outline: none;
+}
+
+/* 버튼 스타일 */
+.add-button, .delete-button, .edit-button, .updateComplete-button {
+  display: inline-block;
+  padding: 8px 12px;
+  margin-right: 8px; /* 버튼 간 간격 */
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+/* 버튼 색상 */
+.add-button {
+  background-color: #1e90ff; /* 파란색 */
+}
+
+.add-button:hover {
+  background-color: #007acc; /* 어두운 파란색 */
+}
+
+.delete-button {
+  background-color: #ff4d4d; /* 빨간색 */
+}
+
+.delete-button:hover {
+  background-color: #cc0000; /* 어두운 빨간색 */
+}
+
+.edit-button {
+  background-color: #ffa500; /* 주황색 */
+}
+
+.edit-button:hover {
+  background-color: #cc8400; /* 어두운 주황색 */
+}
+
+.updateComplete-button {
+  background-color: #28a745; /* 녹색 */
+}
+
+.updateComplete-button:hover {
+  background-color: #1c7c31; /* 어두운 녹색 */
+}
+
+/* 투두 리스트 항목 */
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .todo-item {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
 }
 
-.todo-button {
-  padding: 10px 20px;
-  background-color: red;
-  color: white;
+.todo-item:last-child {
+  border-bottom: none;
 }
 
-.todo-button2 {
-  padding: 10px 20px;
-  background-color: blue;
-  color: white;
-}
-
-.todo-button3 {
-  padding: 10px 20px;
-  background-color: black;
-  color: white;
-}
-
-.todo-button:hover {
-  background-color: green;
+/* 번호와 텍스트 */
+.todo-item p {
+  margin: 0;
+  font-size: 16px;
 }
