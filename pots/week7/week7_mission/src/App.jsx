@@ -1,4 +1,4 @@
-import View from "./components/View";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RootLayout from "./layouts/root-layout";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Search from "./pages/Search";
@@ -12,15 +12,15 @@ import MovieDetail from "./pages/MovieDetail";
 import SignupPage from "./pages/Signup";
 import LoginPage from "./pages/Login";
 
+const queryClient = new QueryClient();
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    // 1. Navbar 밑에 path에 해당하는 element를 보여주고 싶으면 아래와 같이 children을 활용
     children: [
       {
-        // 2. index: true는 위의 path: '/' 즉, 홈 경로를 의미한다.
-        index: true,
+        index: true, // index: true는 '/' 경로를 의미합니다.
         element: <MainPage />,
       },
       {
@@ -49,22 +49,26 @@ const router = createBrowserRouter([
       },
       {
         path: "/movie/detail/:id",
-        element: <MovieDetail/>,
+        element: <MovieDetail />,
       },
       {
         path: "/signup",
-        element: <SignupPage/>,
+        element: <SignupPage />,
       },
       {
         path: "/login",
-        element: <LoginPage/>
-      }
+        element: <LoginPage />,
+      },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
