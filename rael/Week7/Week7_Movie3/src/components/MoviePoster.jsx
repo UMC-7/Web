@@ -1,58 +1,82 @@
 import styled from "styled-components";
-import useCustomFetch from "../hooks/useCustomFetch";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { useGetMovies } from "../hooks/queries/useGetMovies";
 import SkeletonList from "../components/card-skeleton/SkeletonList";
-import { useGetInfiniteMovies } from "../hooks/queries/useGetInfiniteMovies";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import ClipLoader from "react-spinners/ClipLoader"
+import { useState, useEffect } from "react";
+import { useGetPagination } from "../hooks/queries/useGetPagination";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 export const MoviePoster = ({category}) => {
     const navigate = useNavigate();
 
-    const ToMovieDetail = (movie) => {
-        navigate(`/movies/${movie.id}`, {state: {movie}})
-        console.log(movie);
-    }
-
-    /*
-    const {data: movies, isPending, isError} = useQuery({
-        queryFn: () => useGetMovies({categories: category, pageParam: 1}), 
-        queryKey: ['movies', category], 
-        cacheTime: 10000,
-        staleTime: 10000,  
-    })
-    */
+    const [currentPage, setCurrentPage] = useState(1);
 
     const {
         data: movies, 
         isPending, 
         isError, 
-        isFetching, 
-        hasNextPage, 
-        fetchNextPage, 
-    } = useGetInfiniteMovies(category);
+    } = useGetPagination(category, currentPage);
 
-    const {ref, inView} = useInView({
-        threshold: 0, 
-    })
+    // 전체 페이지 개수
+    const totalPages = movies?.total_pages || 0;
+    // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ...] 버튼
+    //const numbers = [...Array(totalPages + 1).keys()].slice(1);
 
-    useEffect(() => {
-        if (inView) {
-            !isFetching && hasNextPage && fetchNextPage();
+
+    // 페이지네이션 로직을 개선하여 버튼 수를 제한
+    const maxPageButtons = 7; // 최대 표시할 페이지 버튼 수
+    const pageNumbers = [];
+
+    if (totalPages <= maxPageButtons) {
+        // 전체 페이지 수가 최대 버튼 수 이하인 경우 모든 페이지 표시
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
         }
-    }, [inView, isFetching, hasNextPage, fetchNextPage]);
+    } else {
+        // 첫 번째 페이지는 항상 표시
+        pageNumbers.push(1);
+
+        let startPage = Math.max(2, currentPage - 2);
+        let endPage = Math.min(totalPages - 1, currentPage + 2);
+
+        if (currentPage <= 3) {
+            // 초기 페이지 근처일 때
+            endPage = 5;
+        } else if (currentPage >= totalPages - 2) {
+            // 마지막 페이지 근처일 때
+            startPage = totalPages - 4;
+        }
+
+        // 중간 페이지 추가
+        if (startPage > 2) {
+            pageNumbers.push("...");
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+
+        if (endPage < totalPages - 1) {
+            pageNumbers.push("...");
+        }
+
+        // 마지막 페이지는 항상 표시
+        pageNumbers.push(totalPages);
+    }
+
+    const ToMovieDetail = (movie) => {
+        navigate(`/movies/${movie.id}`, {state: {movie}})
+        // console.log(movie);
+    }
 
     // isPending: 데이터를 불러오는 중입니다. 데이터가 로딩중일때 IsPending true.
     // isLoading: 데이터를 불러오는 중이거나, 재시도 중일때 true가 된다.
 
+    console.log(movies);
+
     if (isPending) {
         return <Container>
-            <SkeletonList number={25}/>
+            <SkeletonList number={20}/>
         </Container>
     }
     
@@ -63,36 +87,45 @@ export const MoviePoster = ({category}) => {
     }
 
     return (
-        <Container>
-            {movies?.pages
-                ?.map(page => page.results)
-                .flat()
-                .map((movie,_) => 
-                    <Movies key={movie.id} onClick={() => {ToMovieDetail(movie)}}>
-                        <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
-                        <Overlay></Overlay>
-                        <Title>{movie.title}</Title>
-                        <ReleaseDate>{movie.release_date}</ReleaseDate>
-                    </Movies>
+        <>
+            <Container>
+                {movies?.results?.map((movie) =>  (
+                        <Movies key={movie.id} onClick={() => {ToMovieDetail(movie)}}>
+                            <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
+                            <Overlay></Overlay>
+                            <Title>{movie.title}</Title>
+                            <ReleaseDate>{movie.release_date}</ReleaseDate>
+                        </Movies>
+                    ))}
+            </Container>
+            <PaginationContainer>
+                <Button 
+                    disabled={currentPage === 1} 
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                >
+                    이전
+                </Button>
+                {pageNumbers.map((number, idx) =>
+                    number === "..." ? (
+                        <Ellipsis key={`ellipsis-${idx}`}>...</Ellipsis>
+                    ) : (
+                        <PageButton
+                            key={`page-${number}`}
+                            active={currentPage === number}
+                            onClick={() => setCurrentPage(number)}
+                        >
+                            {number}
+                        </PageButton>
+                    )
                 )}
-
-            {/*
-            {movies?.pages.map((page) => 
-                page.results.map((movie) => (
-                    <Movies key={movie.id} onClick={() => {ToMovieDetail(movie)}}>
-                        <Img src={IMAGE_BASE_URL + movie.poster_path} alt={movie.title} />
-                        <Overlay></Overlay>
-                        <Title>{movie.title}</Title>
-                        <ReleaseDate>{movie.release_date}</ReleaseDate>
-                    </Movies>
-                ))
-            )}
-            */}
-            {isFetching && <SkeletonList number={16}/>}
-            <Loader ref={ref}>
-                {isFetching && <ClipLoader color={'#fff'}/>}
-            </Loader>
-        </Container>
+                <Button 
+                    disabled={currentPage === totalPages} 
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                >
+                    다음
+                </Button>
+            </PaginationContainer>
+        </>
     )
 }
 
@@ -148,9 +181,29 @@ const ReleaseDate = styled.div`
     font-size: 11px;
 `;
 
-const Loader = styled.div`
+const PaginationContainer = styled.div`
     display: flex;
     justify-content: center;
-    width: 100%;
-    margin: 50px;
-`
+    align-items: center;
+    margin-top: 20px;
+`;
+
+const Button = styled.button`
+    padding: 10px;
+    font-size: 15px;
+    font-weight: ${(props) => (props.active ? "bold" : "normal")};
+    background-color: ${(props) => (props.active ? "#ddd" : "#FFFFFF")};
+`;
+
+const PageButton = styled.button`
+    padding: 10px;
+    font-size: 15px;
+    font-weight: ${(props) => (props.active ? "bold" : "normal")};
+    background-color: ${(props) => (props.active ? "#FF8AA3" : "#FFFFFF")};
+`;
+
+const Ellipsis = styled.span`
+    margin: 0 5px;
+    padding: 5px 10px;
+    color: white;
+`;
