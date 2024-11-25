@@ -1,23 +1,38 @@
-import React from 'react';
-import styled from 'styled-components';
-import { MOVIES } from './mocks/movies';
-import MovieItem from './components/MovieItem';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-const MovieContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-`;
+import RootLayout from './layout/root-layout.jsx'
+import NotFound from './pages/notfound.jsx'
+import HomePage from './pages/home.jsx'
+import LoginPage from './pages/login.jsx'
+import SignupPage from './pages/signup.jsx'
+import SearchPage from './pages/search.jsx'
+import MoviePage from './pages/movie.jsx'
+import NowPlaying from './pages/categories/nowplaying.jsx'
+import Popular from './pages/categories/popular.jsx'
+import TopRated from './pages/categories/toprated.jsx'
+import UpComing from './pages/categories/upcoming.jsx'
 
-function App() {
-  return (
-    <MovieContainer>
-      {MOVIES.results.map((movie) => (
-        <MovieItem key={movie.id} posterPath={movie.poster_path} />
-      ))}
-    </MovieContainer>
-  );
+const router = createBrowserRouter([
+  {
+    path: '/', element: <RootLayout/>, errorElement: <NotFound/>,
+
+    children: [
+      {index: true, element: <HomePage/>},
+      {path: 'login', element: <LoginPage/>}, 
+      {path: 'signup', element: <SignupPage/>},
+      {path: 'search', element: <SearchPage/>},
+      {path: 'movie', element: <MoviePage/>},
+      {path: "/movie/now-playing", element: <NowPlaying />},
+      {path: "/movie/popular", element: <Popular />},
+      {path: "/movie/top-rated", element: <TopRated />},
+      {path: "/movie/up-coming", element: <UpComing />}
+    ]
+  }
+])
+
+function Movie() {
+
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default Movie
