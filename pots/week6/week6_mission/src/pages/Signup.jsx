@@ -59,13 +59,14 @@ const SignupPage = () => {
   //모두 valid 할 경우에만 submit이 가능하도록 handleSubmit 함수
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(emailValid, pwValid, checkPwValid);
     if (allValid) {
       const userData = {
         email: email,
         password: pw,
         passwordCheck: checkPw
       };
-
+      console.log("Sending data:", userData);
       fetch('http://localhost:3000/auth/register', {
         method: 'POST',
         headers: {
