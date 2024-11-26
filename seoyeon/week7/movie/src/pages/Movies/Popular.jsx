@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import MovieView from "../components/MovieView/MovieView";
-import { StyledOutletFont } from "../components/OutletStyle";
-import useCustomFetch from "../hooks/useCustomFetch";
-import { axiosInstance } from "../apis/axios-instance";
-import { useGetInfiniteMovies } from "../hooks/queries/useGetInfiniteMovies";
-import * as M from "../components/MovieView/movieview.style"
-import MoviePoster from "../components/MoviePoster";
+import MovieView from "../../components/MovieView/MovieView";
+import { StyledOutletFont } from "../../components/OutletStyle";
+import useCustomFetch from "../../hooks/useCustomFetch";
+import { axiosInstance } from "../../apis/axios-instance";
+import { useGetInfiniteMovies } from "../../hooks/queries/useGetInfiniteMovies";
+import * as M from "../../components/MovieView/movieview.style"
+import MoviePoster from "../../components/MoviePoster";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import CardSkeleton from "../components/Card/CardSkelton";
+import CardSkeleton from "../../components/Card/CardSkelton";
 
 const PopularPage=()=>{
     //const {data:movies, isLoading, isError}=useCustomFetch(`/movie/upcoming?language=en-US&page=1`)

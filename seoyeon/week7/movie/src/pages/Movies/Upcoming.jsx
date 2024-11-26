@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../apis/axios-instance";
-import MovieView from "../components/MovieView/MovieView";
+import { axiosInstance } from "../../apis/axios-instance";
+import MovieView from "../../components/MovieView/MovieView";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import { useGetInfiniteMovies } from "../hooks/queries/useGetInfiniteMovies";
-import * as M from "../components/MovieView/movieview.style"
-import MoviePoster from "../components/MoviePoster";
-import CardSkeleton from "../components/Card/CardSkelton";
+import { useGetInfiniteMovies } from "../../hooks/queries/useGetInfiniteMovies";
+import * as M from "../../components/MovieView/movieview.style"
+import MoviePoster from "../../components/MoviePoster";
+import CardSkeleton from "../../components/Card/CardSkelton";
 
 const VITE_API_KEY = import.meta.env.VITE_TMDB_TOKEN;
 const BASE_URL = import.meta.env.VITE_MOVIE_URL;

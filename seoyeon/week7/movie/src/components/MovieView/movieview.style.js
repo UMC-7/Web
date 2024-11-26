@@ -20,4 +20,28 @@ const MovieInfoFonf=styled.text`
     display: block;
 `
 
-export {Movie, Container, MovieInfoFonf}
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
+
+const PageButton = styled.button`
+    width: 50px;
+    height: 30px;
+    color: white;
+    background-color: #d30950;
+    &:disabled{
+        background-color: gray;
+    }
+`
+
+const PageButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+`
+
+export {Movie, Container, MovieInfoFonf, PageContainer, PageButton, PageButtonContainer}
