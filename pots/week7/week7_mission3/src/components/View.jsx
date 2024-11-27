@@ -7,6 +7,7 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 30px 20px;
 `;
 
 const Movie = styled.div`

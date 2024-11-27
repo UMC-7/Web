@@ -1,14 +1,15 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import View from "../components/View";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 
+// 환경변수에서 API 키 가져오기
 const VITE_API_KEY = import.meta.env.VITE_API_KEY;
 
-// API 요청 함수
-const fetchNowPlayingMovies = async ({ pageParam = 1 }) => {
+// API 요청 함수 분리
+const fetchNowPlayingMovies = async ({ page }) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/now_playing?language=ko&page=${pageParam}`,
+    `https://api.themoviedb.org/3/movie/now_playing?language=ko&page=${page}`,
     {
       headers: {
         accept: "application/json",
@@ -25,62 +26,52 @@ const fetchNowPlayingMovies = async ({ pageParam = 1 }) => {
 };
 
 const NowPlaying = () => {
-  const {
-    data,
-    isLoading,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["now-playing"],
-    queryFn: ({ pageParam }) => fetchNowPlayingMovies({ pageParam }),
-    getNextPageParam: (lastPage) => {
-      // 다음 페이지를 결정 (마지막 페이지를 초과하면 undefined 반환)
-      return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
-    },
+  const [page, setPage] = useState(1); // 현재 페이지 상태
+
+  const { data, isLoading, isError, isPreviousData } = useQuery({
+    queryKey: ["now-playing", page],
+    queryFn: () => fetchNowPlayingMovies({ page }),
+    keepPreviousData: true,
   });
-
-  const observerRef = useRef(); // Intersection Observer 참조
-
-  const lastMovieElementRef = React.useCallback(
-    (node) => {
-      if (isFetchingNextPage) return; // 데이터 로딩 중일 때는 옵저버 작동 중단
-      if (observerRef.current) observerRef.current.disconnect(); // 기존 Observer 해제
-
-      observerRef.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          fetchNextPage(); // 스크롤이 끝에 도달했을 때 다음 페이지 로드
-        }
-      });
-
-      if (node) observerRef.current.observe(node); // 새 노드에 옵저버 연결
-    },
-    [isFetchingNextPage, hasNextPage, fetchNextPage]
-  );
 
   if (isLoading) {
     return <Loading>로딩 중입니다...</Loading>;
   }
 
   if (isError) {
-    return <ErrorMessage>영화 데이터를 가져오는 중 오류가 발생했습니다.</ErrorMessage>;
+    return (
+      <ErrorMessage>
+        영화 데이터를 가져오는 중 오류가 발생했습니다.
+      </ErrorMessage>
+    );
   }
 
-  // 응답 데이터가 없거나 비어 있는 경우
-  if (!data || !data.pages || data.pages.length === 0) {
+  // 데이터가 없을 때의 처리
+  if (!data || !data.results || data.results.length === 0) {
     return <ErrorMessage>현재 상영 중인 영화를 찾을 수 없습니다.</ErrorMessage>;
   }
 
-  const movies = data.pages.flatMap((page) => page.results); // 모든 페이지 데이터를 플랫하게 정리
+  // 영화 데이터를 18개씩 잘라냄
+  const moviesToShow = data.results.slice(0, 18);
 
   return (
     <Container>
-      <View movies={movies} />
-      <div ref={lastMovieElementRef}>
-        {isFetchingNextPage && <Loading>로딩 중입니다...</Loading>}
-        {!hasNextPage && <EndMessage>더 이상 데이터가 없습니다.</EndMessage>}
-      </div>
+      <View movies={moviesToShow} /> {/* 잘라낸 데이터를 전달 */}
+      <Pagination>
+        <Button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1 || isPreviousData}
+        >
+          이전
+        </Button>
+        <PageNumber>페이지 {page}</PageNumber>
+        <Button
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={!data || data.results.length < 18}
+        >
+          다음
+        </Button>
+      </Pagination>
     </Container>
   );
 };
@@ -102,15 +93,35 @@ const ErrorMessage = styled.div`
   color: red;
 `;
 
-const EndMessage = styled.div`
-  text-align: center;
-  font-size: 16px;
-  margin-top: 20px;
-  color: gray;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 0 10px;
+  background-color: ${(props) => (props.disabled ? "gray" : "#f1ce08")};
+  color: ${(props) => (props.disabled ? "white" : "black")};
+  border: none;
+  border-radius: 5px;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+
+  &:hover {
+    background-color: ${(props) => (props.disabled ? "gray" : "#e1b907")};
+  }
+`;
+
+const PageNumber = styled.span`
+  font-size: 16px;
+  color: black;
 `;
