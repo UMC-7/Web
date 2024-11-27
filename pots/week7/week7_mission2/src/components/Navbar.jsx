@@ -55,6 +55,7 @@ const StyledNav = styled.nav`
   background-color: black;
   display: flex;
   justify-content: space-between;
+  z-index: 1000;
 `;
 
 const Logo = styled.div`
