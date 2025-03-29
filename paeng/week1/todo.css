@@ -1,0 +1,25 @@
+input{
+  width: 50vw;
+  height: 5vh;
+  margin: 100px;
+}
+
+*{
+  text-align: center;
+}
+
+.flex-container{
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.item{
+  justify-content: center;
+  text-align: center;
+  width: 50vw;
+}
+
+li{
+  list-style: none;
+}
